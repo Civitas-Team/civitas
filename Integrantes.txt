@@ -1,3 +1,4 @@
+BACKEND
 Nome: Welison paixão de Souza 
 RA: 818146694 
 Email USJT: welisonsouza.6694@aluno.saojudas.br
@@ -6,18 +7,12 @@ Nome: Luiz Fernando Ferreira Berber
 RA: 817123421 
 Email USJT: luizberber.3421@aluno.saojudas.br
 
-Nome: Alex Lopes Pereira 
-RA: 818143852
-Email USJT: alexpereira.3852@aluno.saojudas.br 
-
 Nome: Vitor Valerio Mancinelli 
 RA: 820142421
 Email: vitormancinelli.2421@aluno.saojudas.br
 
-Nome: Matheus Barraboni Cabrini
-RA: 820135299
-Email USJT: matheuscabrini.5299@aluno.saojudas.br
 
+FRONTEND
 Nome: Beatriz Rodrigues de Souza 
 Email USJT: beatrizsouza.6691@aluno.saojudas.br  
 RA:821126691
@@ -25,3 +20,11 @@ RA:821126691
 Nome: Arthur Felipe Silva Santos 
 RA: 81613743
 Email USJT: arthursantos.3743@aluno.saojudas.br
+
+Nome: Alex Lopes Pereira 
+RA: 818143852
+Email USJT: alexpereira.3852@aluno.saojudas.br 
+
+Nome: Matheus Barraboni Cabrini
+RA: 820135299
+Email USJT: matheuscabrini.5299@aluno.saojudas.br
