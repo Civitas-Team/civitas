@@ -1,48 +1,47 @@
 <div class="container">
   <form>
-    <div class="row">
-      <div class="column col-2">
-        <img src="../assets/profile.png" class="img-fluid img-perfil">
+    <div class="row mt-4">
+      <div class="col-1 ">
+        <img src="../assets/profile.png" class="img-fluid mt-4 rounded-circle">
       </div>
-      <div class="column col-10">
-        <h1 class="d-block">Matheus Barraboni Cabrini</h1>
+      <div class="column col-11">
+        <h4 class="d-block ">Matheus Barraboni Cabrini</h4>
         <div class="form-group">
-          <label for="profissaoInput" class="form-label">Tema</label>
-          <select name="" id="profissaoInput" class="form-control" name="profissao" ngModel>
+          <label for="temaInput" class="form-label">Tema</label>
+          <select id="temaInput" class="form-control" name="tema" ngModel>
             <option value="">Selecione</option>
-            <option>Covid-19</option>
-            <option>Doação</option>
-            <option>Hospitais</option>
-            <option>Outros</option>
+            <option value="covid-19">Covid-19</option>
+            <option value="doacao">Doação</option>
+            <option value="hospitais">Hospitais</option>
+            <option value="outros">Outros</option>
           </select>
         </div>
       </div>
     </div>
     <div class="row mt-2">
-      <div class="column col-1">
-        <img src="../assets/localizacao.jpg" class="img-fluid">
+      <div class="col-1">
+        <img src="../assets/localizacao.jpg" class="img-fluid img-localizacao">
       </div>
-      <div class="column col-11">
+      <div class="col-11">
       <div class="form-group">
         <input type="text" placeholder="localização" class="form-control" name="localizacao">
       </div>
     </div>
   </div>
     <div class="row mt-2">
-      <div class="column col-12">
+      <div class="col-12">
         <textarea class="form-control"
           aria-label="Digite sua informação aqui"
           placeholder="Digite sua informação aqui"></textarea>
         <!-- <input type="text" placeholder="Digite sua informação" class="form-control" name="texto"> -->
       </div>
     </div>
-    <div class="row mt-2 justify-content-between">
-      <div class="column col-2">
+    <div class="row mt-2 justify-content-between botoes">
+      <div class="col-2">
         <button class="btn btn-primary">Foto</button>
       </div>
-      <div class="col-6 bg-secondary justify-content-end">
-        <button class="btn btn-primary">Publicar</button>
-        <button class="btn btn-primary">Publicar</button>
+      <div class="col-1">
+        <button class="btn btn-primary ">Publicar</button>
       </div>
     </div>
 
