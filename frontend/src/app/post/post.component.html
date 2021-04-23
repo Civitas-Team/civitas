@@ -1,33 +1,49 @@
 <div class="container">
   <form>
     <div class="row">
-      <img src="../assets/profile.png">
-      <div>
+      <div class="column col-2">
+        <img src="../assets/profile.png" class="img-fluid img-perfil">
+      </div>
+      <div class="column col-10">
         <h1 class="d-block">Matheus Barraboni Cabrini</h1>
         <div class="form-group">
-          <label for="profissaoInput">Tema</label>
+          <label for="profissaoInput" class="form-label">Tema</label>
           <select name="" id="profissaoInput" class="form-control" name="profissao" ngModel>
             <option value="">Selecione</option>
-            <option>Engenheiro</option>
-            <option>Professor</option>
-            <option>Químico</option>
-            <option>Zoólogo</option>
+            <option>Covid-19</option>
+            <option>Doação</option>
+            <option>Hospitais</option>
+            <option>Outros</option>
           </select>
         </div>
       </div>
     </div>
-    <div class="row">
-      <img src="../assets/localizacao.jpg" class="imagem">
+    <div class="row mt-2">
+      <div class="column col-1">
+        <img src="../assets/localizacao.jpg" class="img-fluid">
+      </div>
+      <div class="column col-11">
       <div class="form-group">
         <input type="text" placeholder="localização" class="form-control" name="localizacao">
       </div>
     </div>
-    <div class="row">
-      <input type="text" placeholder="Digite sua informação" class="form-control" name="texto">
+  </div>
+    <div class="row mt-2">
+      <div class="column col-12">
+        <textarea class="form-control"
+          aria-label="Digite sua informação aqui"
+          placeholder="Digite sua informação aqui"></textarea>
+        <!-- <input type="text" placeholder="Digite sua informação" class="form-control" name="texto"> -->
+      </div>
     </div>
-    <div class="row">
-      <button>Foto</button>
-      <button>Publicar</button>
+    <div class="row mt-2 justify-content-between">
+      <div class="column col-2">
+        <button class="btn btn-primary">Foto</button>
+      </div>
+      <div class="col-6 bg-secondary justify-content-end">
+        <button class="btn btn-primary">Publicar</button>
+        <button class="btn btn-primary">Publicar</button>
+      </div>
     </div>
 
   </form>
