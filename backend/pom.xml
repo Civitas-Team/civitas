@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>usjt.project.civitas</groupId>
 	<artifactId>civitas</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>civitas</name>
 	<description>Civitas Back End</description>
 	<properties>
@@ -42,7 +42,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 
 	<build>
