@@ -1,5 +1,5 @@
 <div class="container">
-  <form>
+  <form (submit)="onSalvarPost(postForm)" #postForm="ngForm">
     <div class="row mt-4">
       <div class="col-1 ">
         <img src="../assets/profile.png" class="img-fluid mt-4 rounded-circle">
@@ -8,7 +8,11 @@
         <h4 class="d-block ">Matheus Barraboni Cabrini</h4>
         <div class="form-group">
           <label for="temaInput" class="form-label">Tema</label>
-          <select id="temaInput" class="form-control" name="tema" ngModel>
+          <select
+            id="temaInput"
+            class="form-control"
+            name="tema"
+            ngModel>
             <option value="">Selecione</option>
             <option value="covid-19">Covid-19</option>
             <option value="doacao">Doação</option>
@@ -24,7 +28,12 @@
       </div>
       <div class="col-11">
       <div class="form-group">
-        <input type="text" placeholder="localização" class="form-control" name="localizacao">
+        <input
+          type="text"
+          placeholder="localização"
+          class="form-control"
+          name="localizacao"
+          ngModel>
       </div>
     </div>
   </div>
@@ -32,13 +41,19 @@
       <div class="col-12">
         <textarea class="form-control"
           aria-label="Digite sua informação aqui"
-          placeholder="Digite sua informação aqui"></textarea>
+          placeholder="Digite sua informação aqui"
+          name="texto"
+          ngModel>
+        </textarea>
         <!-- <input type="text" placeholder="Digite sua informação" class="form-control" name="texto"> -->
       </div>
     </div>
     <div class="row mt-2 justify-content-between botoes">
       <div class="col-2">
-        <button class="btn btn-primary">Foto</button>
+        <button
+          class="btn btn-primary"
+          (onPress)="onAdicionarFoto()">
+          Foto</button>
       </div>
       <div class="col-1">
         <button class="btn btn-primary ">Publicar</button>
