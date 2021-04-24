@@ -1,10 +1,10 @@
 <div class="container">
   <form (submit)="onSalvarPost(postForm)" #postForm="ngForm">
     <div class="row mt-4">
-      <div class="col-1 ">
+      <div class="col-lg-1 col-2">
         <img src="../assets/profile.png" class="img-fluid mt-4 rounded-circle">
       </div>
-      <div class="column col-11">
+      <div class="column col-lg-11 col-10">
         <h4 class="d-block ">Matheus Barraboni Cabrini</h4>
         <div class="form-group">
           <label for="temaInput" class="form-label">Tema</label>
@@ -23,10 +23,10 @@
       </div>
     </div>
     <div class="row mt-2">
-      <div class="col-1">
+      <div class="col-lg-1 col-2">
         <img src="../assets/localizacao.jpg" class="img-fluid img-localizacao">
       </div>
-      <div class="col-11">
+      <div class="col-lg-11 col-10">
       <div class="form-group">
         <input
           type="text"
@@ -48,15 +48,15 @@
         <!-- <input type="text" placeholder="Digite sua informação" class="form-control" name="texto"> -->
       </div>
     </div>
-    <div class="row mt-2 justify-content-between botoes">
+    <div class="row mt-2 justify-content-between">
       <div class="col-2">
         <button
           class="btn btn-primary"
           (onPress)="onAdicionarFoto()">
           Foto</button>
       </div>
-      <div class="col-1">
-        <button class="btn btn-primary ">Publicar</button>
+      <div class="col-1 mr-xl-3 mr-lg-4 mr-md-5">
+        <button class="btn btn-primary">Publicar</button>
       </div>
     </div>
 
