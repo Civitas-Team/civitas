@@ -1,0 +1,34 @@
+  <!-- <div class="row">
+    <div class='col-12'>
+      <mat-toolbar>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+            <div>
+        <div class="menuRespansivo">
+          <button type="button" mat-button (click)="drawer.toggle()">
+            <mat-icon color="primary">more_vert</mat-icon>Menu
+          </button>
+        </div>
+          <mat-drawer #drawer class="" mode="side">
+            <div>
+              <button mat-icon-button class="d-block"><mat-icon color="primary">home</mat-icon> Home</button>
+              <button mat-icon-button ><mat-icon color="primary">account_circle</mat-icon>Meu Perfil</button>
+              <button class="d-block" mat-icon-button><mat-icon >settings</mat-icon>Configurações</button>
+            </div>
+          </mat-drawer>
+
+    </div>
+        </button>
+      </mat-toolbar>
+
+
+    </div>
+  </div> -->
+
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button  mat-menu-item><mat-icon >home</mat-icon>Home</button>
+    <button mat-menu-item ><mat-icon color="primary">account_circle</mat-icon>Meu Perfil</button>
+    <button mat-menu-item><mat-icon >settings</mat-icon>Configurações</button>
+  </mat-menu>

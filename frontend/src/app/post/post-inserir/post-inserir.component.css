@@ -5,3 +5,7 @@
 .botoes{
   margin-right: 0.5rem;
 }
+
+input[type="file"]{
+  visibility: hidden;
+}

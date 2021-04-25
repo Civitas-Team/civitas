@@ -9,14 +9,19 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { PostInserirComponent } from './post/post-inserir/post-inserir.component';
 import { PostReadComponent } from './post/post-read/post-read.component'
-
+import { PublicacaoComponent } from './publicacao/publicacao.component'
+import {MatIconModule} from '@angular/material/icon';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     PostInserirComponent,
-    PostReadComponent
+    PostReadComponent,
+    PublicacaoComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +30,12 @@ import { PostReadComponent } from './post/post-read/post-read.component'
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatMenuModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -2,15 +2,15 @@
   <form (submit)="onSalvarPost(postForm)" #postForm="ngForm">
     <div class="row mt-4">
       <div class="col-lg-1 col-2">
-        <img src="../assets/profile.png" class="img-fluid mt-4 rounded-circle">
+        <img src="{{pessoa.img}}" class="img-fluid mt-4 rounded-circle">
       </div>
       <div class="column col-lg-11 col-10">
-        <h4 class="d-block ">Matheus Barraboni Cabrini</h4>
+        <h4 class="d-block ">{{pessoa.nome}}</h4>
         <div class="form-group">
           <label for="temaInput" class="form-label">Tema</label>
           <select
             id="temaInput"
-            class="form-control"
+            class="form-control rounded-pill"
             name="tema"
             ngModel>
             <option value="">Selecione</option>
@@ -24,14 +24,14 @@
     </div>
     <div class="row mt-2">
       <div class="col-lg-1 col-2">
-        <img src="../assets/localizacao.jpg" class="img-fluid img-localizacao">
+        <mat-icon style="font-size: 34px" color="primary">location_on</mat-icon>
       </div>
       <div class="col-lg-11 col-10">
       <div class="form-group">
         <input
           type="text"
           placeholder="localização"
-          class="form-control"
+          class="form-control rounded-pill"
           name="localizacao"
           ngModel>
       </div>
@@ -39,26 +39,24 @@
   </div>
     <div class="row mt-2">
       <div class="col-12">
-        <textarea class="form-control"
+        <textarea class="form-control rounded-3"
           aria-label="Digite sua informação aqui"
           placeholder="Digite sua informação aqui"
           name="texto"
           ngModel>
         </textarea>
-        <!-- <input type="text" placeholder="Digite sua informação" class="form-control" name="texto"> -->
       </div>
     </div>
-    <div class="row mt-2 justify-content-between">
-      <div class="col-2">
-        <button
-          class="btn btn-primary"
-          (onPress)="onAdicionarFoto()">
-          Foto</button>
+    <div class="row mt-2 justify-content-md-between">
+      <div class="col-2" color="secondary">
+        <button mat-icon-button (click)="selecionaArquivo.click()">
+          <mat-icon style="font-size: 50px" color="primary">add_photo_alternate</mat-icon>
+        </button>
+        <input type="file" #selecionaArquivo>
       </div>
       <div class="col-1 mr-xl-3 mr-lg-4 mr-md-5">
-        <button class="btn btn-primary">Publicar</button>
+        <button class="btn btn-primary rounded-pill">Publicar</button>
       </div>
     </div>
-
   </form>
 </div>
