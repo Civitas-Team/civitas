@@ -21,7 +21,7 @@ public class PessoaService {
 	private PessoaRepository repo;
 	
 	public String inserir(Pessoa pessoa) {
-		if (repo.findByCPF(pessoa.getCPF()) != null) {
+		if (repo.findByCpf(pessoa.getCpf()) != null) {
 			return "CPF";
 		} else if (repo.findByEmail(pessoa.getEmail()) != null) {
 			return "Email";

@@ -1,6 +1,7 @@
 package usjt.project.civitas.civitas.entity;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -8,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -25,13 +27,14 @@ public class Pessoa implements Serializable {
 	@Column
 	private String nome;
 	@Column
-	private String CPF;
+	private String cpf;
 	@Column
 	private String email;
 	@Column
 	private String biografia;
-	@Column
-	private String imagem;
+    @Lob
+    @Column
+    private byte[] imagem;
 	@Column
 	private String localizacao;
 	@Column
@@ -61,12 +64,12 @@ public class Pessoa implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getCPF() {
-		return CPF;
+	public String getCpf() {
+		return cpf;
 	}
 
-	public void setCPF(String cPF) {
-		CPF = cPF;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	public String getEmail() {
@@ -85,11 +88,11 @@ public class Pessoa implements Serializable {
 		this.biografia = biografia;
 	}
 
-	public String getImagem() {
+	public byte[] getImagem() {
 		return imagem;
 	}
 
-	public void setImagem(String imagem) {
+	public void setImagem(byte[] imagem) {
 		this.imagem = imagem;
 	}
 
@@ -133,14 +136,15 @@ public class Pessoa implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((CPF == null) ? 0 : CPF.hashCode());
+		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result + ((biografia == null) ? 0 : biografia.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((emailConfirmado == null) ? 0 : emailConfirmado.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((imagem == null) ? 0 : imagem.hashCode());
+		result = prime * result + Arrays.hashCode(imagem);
 		result = prime * result + ((localizacao == null) ? 0 : localizacao.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((postagem == null) ? 0 : postagem.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
 		return result;
 	}
@@ -154,10 +158,10 @@ public class Pessoa implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Pessoa other = (Pessoa) obj;
-		if (CPF == null) {
-			if (other.CPF != null)
+		if (cpf == null) {
+			if (other.cpf != null)
 				return false;
-		} else if (!CPF.equals(other.CPF))
+		} else if (!cpf.equals(other.cpf))
 			return false;
 		if (biografia == null) {
 			if (other.biografia != null)
@@ -179,10 +183,7 @@ public class Pessoa implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (imagem == null) {
-			if (other.imagem != null)
-				return false;
-		} else if (!imagem.equals(other.imagem))
+		if (!Arrays.equals(imagem, other.imagem))
 			return false;
 		if (localizacao == null) {
 			if (other.localizacao != null)
@@ -193,6 +194,11 @@ public class Pessoa implements Serializable {
 			if (other.nome != null)
 				return false;
 		} else if (!nome.equals(other.nome))
+			return false;
+		if (postagem == null) {
+			if (other.postagem != null)
+				return false;
+		} else if (!postagem.equals(other.postagem))
 			return false;
 		if (senha == null) {
 			if (other.senha != null)

@@ -8,5 +8,5 @@ import usjt.project.civitas.civitas.entity.Pessoa;
 @Repository
 public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
 	public Pessoa findByEmail(String email);
-	public Pessoa findByCPF(String CPF);
+	public Pessoa findByCpf(String cpf);
 }

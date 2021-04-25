@@ -1,11 +1,13 @@
 package usjt.project.civitas.civitas.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import usjt.project.civitas.civitas.entity.Postagem;
+import usjt.project.civitas.civitas.entity.Tema;
 import usjt.project.civitas.civitas.entity.exception.NotFoundPersonException;
 import usjt.project.civitas.civitas.repository.PostagemRepository;
 
@@ -31,4 +33,8 @@ public class PostagemService {
         }
         return postagemRepo.save(postagem);
     }
+    
+	public List<Postagem> getAll(){
+		return postagemRepo.findAll();
+	}
 }
