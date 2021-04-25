@@ -14,17 +14,16 @@
             name="tema"
             ngModel>
             <option value="">Selecione</option>
-            <option value="covid-19">Covid-19</option>
-            <option value="doacao">Doação</option>
-            <option value="hospitais">Hospitais</option>
-            <option value="outros">Outros</option>
+            <option *ngFor="let tema of temas">{{tema}}</option>
           </select>
         </div>
       </div>
     </div>
     <div class="row mt-2">
       <div class="col-lg-1 col-2">
-        <mat-icon style="font-size: 34px" color="primary">location_on</mat-icon>
+        <button (click)="getLocalizacao()" mat-icon-button style="width: 80%;">
+          <mat-icon style="font-size: 34px" color="primary">location_on</mat-icon>
+        </button>
       </div>
       <div class="col-lg-11 col-10">
       <div class="form-group">
@@ -33,7 +32,7 @@
           placeholder="localização"
           class="form-control rounded-pill"
           name="localizacao"
-          ngModel>
+          [ngModel]="pessoa?.localizacao">
       </div>
     </div>
   </div>
@@ -52,7 +51,14 @@
         <button mat-icon-button (click)="selecionaArquivo.click()">
           <mat-icon style="font-size: 50px" color="primary">add_photo_alternate</mat-icon>
         </button>
-        <input type="file" #selecionaArquivo>
+        <input type="file" (change)="onImagemSelecionada($event)" #selecionaArquivo>
+      </div>
+      <div class="col">
+        <div class="col-2">
+          <div class="imagem-preview">
+            <img [src]="previewImagem" class='img-fluid' *ngIf="previewImagem && previewImagem !== ''" [alt]="postForm">
+          </div>
+        </div>
       </div>
       <div class="col-1 mr-xl-3 mr-lg-4 mr-md-5">
         <button class="btn btn-primary rounded-pill">Publicar</button>

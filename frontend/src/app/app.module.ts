@@ -14,6 +14,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
+import { PostService } from './post/post.service'
 
 
 @NgModule({
@@ -37,7 +38,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatMenuModule
 
   ],
-  providers: [],
+  providers: [PostService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
