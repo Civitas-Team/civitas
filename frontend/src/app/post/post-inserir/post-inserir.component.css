@@ -1,0 +1,11 @@
+.img-localizacao{
+  height: 40px;
+}
+
+.botoes{
+  margin-right: 0.5rem;
+}
+
+input[type="file"]{
+  visibility: hidden;
+}
