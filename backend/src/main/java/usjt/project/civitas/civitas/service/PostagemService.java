@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import usjt.project.civitas.civitas.entity.Postagem;
-import usjt.project.civitas.civitas.entity.Tema;
 import usjt.project.civitas.civitas.entity.exception.NotFoundPersonException;
 import usjt.project.civitas.civitas.repository.PostagemRepository;
 
@@ -28,9 +27,7 @@ public class PostagemService {
             throw new NotFoundPersonException();
         }
         postagem.setData(new Date());
-        if(postagem.getTema() != null && postagem.getTema().getId() != null) {
-        	postagem.setTema(temaService.getById(postagem.getTema().getId()));
-        }
+        postagem.setTema(temaService.getById(postagem.getTemaId()));
         return postagemRepo.save(postagem);
     }
     

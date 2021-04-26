@@ -15,6 +15,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -31,16 +32,20 @@ public class Postagem implements Serializable {
     private Date data;
 	@Column
 	private String corpo;
-    @Lob
-    @Column
-    private byte[] imagem;
+//    @Lob
+//    @Column
+//    private byte[] imagem;
 	@Column
-	private String localizacão;
+	private String imagem;
+	@Column
+	private String localizacao;
     @ManyToOne(fetch = FetchType.EAGER)
     private Pessoa pessoa;
 	@OneToOne(/*fetch = FetchType.EAGER*/)
     @JoinColumn(referencedColumnName = "id")
 	private Tema tema;
+	@Transient
+	private Long temaId;
 	
 	public Long getId() {
 		return id;
@@ -60,20 +65,20 @@ public class Postagem implements Serializable {
 	public void setCorpo(String corpo) {
 		this.corpo = corpo;
 	}
-	public byte[] getImagem() {
+	public String getImagem() {
 		return imagem;
 	}
-	public void setImagem(byte[] imagem) {
+	public void setImagem(String imagem) {
 		this.imagem = imagem;
 	}
 	public Date getData() {
 		return data;
 	}
-	public String getLocalizacão() {
-		return localizacão;
+	public String getLocalizacao() {
+		return localizacao;
 	}
-	public void setLocalizacão(String localizacão) {
-		this.localizacão = localizacão;
+	public void setLocalizacao(String localizacao) {
+		this.localizacao = localizacao;
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -90,6 +95,12 @@ public class Postagem implements Serializable {
 	public void setTema(Tema tema) {
 		this.tema = tema;
 	}
+	public Long getTemaId() {
+		return temaId;
+	}
+	public void setTemaId(Long temaId) {
+		this.temaId = temaId;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -97,10 +108,11 @@ public class Postagem implements Serializable {
 		result = prime * result + ((corpo == null) ? 0 : corpo.hashCode());
 		result = prime * result + ((data == null) ? 0 : data.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + Arrays.hashCode(imagem);
-		result = prime * result + ((localizacão == null) ? 0 : localizacão.hashCode());
+		result = prime * result + ((imagem == null) ? 0 : imagem.hashCode());
+		result = prime * result + ((localizacao == null) ? 0 : localizacao.hashCode());
 		result = prime * result + ((pessoa == null) ? 0 : pessoa.hashCode());
 		result = prime * result + ((tema == null) ? 0 : tema.hashCode());
+		result = prime * result + ((temaId == null) ? 0 : temaId.hashCode());
 		return result;
 	}
 	@Override
@@ -127,12 +139,15 @@ public class Postagem implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (!Arrays.equals(imagem, other.imagem))
-			return false;
-		if (localizacão == null) {
-			if (other.localizacão != null)
+		if (imagem == null) {
+			if (other.imagem != null)
 				return false;
-		} else if (!localizacão.equals(other.localizacão))
+		} else if (!imagem.equals(other.imagem))
+			return false;
+		if (localizacao == null) {
+			if (other.localizacao != null)
+				return false;
+		} else if (!localizacao.equals(other.localizacao))
 			return false;
 		if (pessoa == null) {
 			if (other.pessoa != null)
@@ -143,6 +158,11 @@ public class Postagem implements Serializable {
 			if (other.tema != null)
 				return false;
 		} else if (!tema.equals(other.tema))
+			return false;
+		if (temaId == null) {
+			if (other.temaId != null)
+				return false;
+		} else if (!temaId.equals(other.temaId))
 			return false;
 		return true;
 	}
