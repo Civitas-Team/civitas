@@ -10,11 +10,10 @@ import { FormsModule } from '@angular/forms';
 import { PostInserirComponent } from './post/post-inserir/post-inserir.component';
 import { PostReadComponent } from './post/post-read/post-read.component'
 import { PublicacaoComponent } from './publicacao/publicacao.component'
-import {MatIconModule} from '@angular/material/icon';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
-import { PostService } from './post/post.service'
 
 
 @NgModule({
@@ -38,7 +37,7 @@ import { PostService } from './post/post.service'
     MatMenuModule
 
   ],
-  providers: [PostService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

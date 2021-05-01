@@ -7,6 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PostReadComponent implements OnInit {
 
+  img = "../../assets/profile.png"
+  post = {
+    localizacao: 'localizacao'
+  }
+  previewImagem = ''
+
   constructor() { }
 
   ngOnInit(): void {

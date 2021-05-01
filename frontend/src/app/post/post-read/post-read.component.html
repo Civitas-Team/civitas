@@ -1,1 +1,50 @@
-<p>post-read works!</p>
+<div class="container">
+    <div class="row mt-4">
+      <div class="col-lg-1 col-2">
+        <img src="{{img}}" class="img-fluid rounded-circle">
+      </div>
+      <div class="column col-lg-11 col-10">
+        <h4 class="mt-3">Maria José da filha de não sei oq</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4">
+        <label for="temaInput" class="form-label">Tema: covid-19</label>
+      </div>
+      <div class="col-1">
+        <mat-icon style="font-size: 34px" color="primary">location_on</mat-icon>
+      </div>
+      <div class="col-7">
+        <input
+          type="text"
+          placeholder="localização"
+          class="form-control rounded-pill"
+          name="localizacao"
+          [ngModel]="this.post?.localizacao">
+      </div>
+    </div>
+    <div class="row mt-2">
+
+    </div>
+    <div class="row mt-2">
+      <div class="col-12">
+        <textarea class="form-control rounded-3"
+          aria-label="Digite sua informação aqui"
+          placeholder="Digite sua informação aqui"
+          name="texto"
+          ngModel>
+        </textarea>
+      </div>
+    </div>
+    <div class="row mt-2 justify-content-md-between">
+      <div class="col-2" color="secondary">
+      </div>
+      <div class="col">
+        <div class="col-2">
+          <div class="imagem-preview">
+            <img [src]="previewImagem" class='img-fluid' *ngIf="previewImagem && previewImagem !== ''" [alt]="postForm">
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
