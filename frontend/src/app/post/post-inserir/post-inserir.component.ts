@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms'
+import { FormGroup, Validators, NgForm, FormControl } from '@angular/forms'
 import { User } from '../user.model'
 import { Tema } from '../tema.model'
 import { PostService } from '../post.service'
+import { mimeTypeValidator } from './mime-type.validator'
 @Component({
   selector: 'app-post-inserir',
   templateUrl: './post-inserir.component.html',
@@ -14,10 +15,27 @@ export class PostInserirComponent implements OnInit {
   constructor(public postService: PostService) {}
 
   ngOnInit(): void {
+    // **Usar para produção**
     // this.temas = this.postService.getListaTemas();
     // this.user = this.postService.getUser();
     // this.coordenada_user = this.user.localizacao
+    this.form = new FormGroup({
+      localizacao: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      tema: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      texto: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      imagem: new FormControl(null, {
+        validators: []
+      })
+    })
   }
+
+  form: FormGroup;
 
   // Usar para desenvolvimento
   user = {
@@ -52,12 +70,15 @@ export class PostInserirComponent implements OnInit {
 
 
   onImagemSelecionada(event: Event) {
-    const imagem = (event.target as HTMLInputElement).files[0]
+    const arquivo = (event.target as HTMLInputElement).files[0]
+    console.log(arquivo)
+    this.form.patchValue({'imagem': arquivo})
+    this.form.get('imagem').updateValueAndValidity()
     const reader = new FileReader()
     reader.onload = () => {
       this.previewImagem = reader.result as string
     }
-    reader.readAsDataURL(imagem)
+    reader.readAsDataURL(arquivo)
   }
 
   getIdTema(valor: string){
@@ -70,19 +91,32 @@ export class PostInserirComponent implements OnInit {
     return id
   }
 
-  onSalvarPost(form: NgForm) {
+  onSalvarPost() {
+    if (this.form.invalid){
+      return
+    }
+
+    const postdados = {
+      localizacao: this.coordenada_user,
+      tema: this.getIdTema(this.form.value.tema),
+      texto: this.form.value.texto,
+      imagem: this.form.value.imagem
+    }
+
+    // const dadosPost = new FormData()
+    // dadosPost.append('localizacao', this.coordenada_user)
+    // dadosPost.append('tema', this.getIdTema(this.form.value.tema).toString())
+    // dadosPost.append('texto', this.form.value.texto)
+    // dadosPost.append('imagem', this.form.value.imagem)
+
     const post = {
-      body: {
-        corpo: form.value.texto,
-        imagem: this.user.imagem,
-        temaId: this.getIdTema(form.value.tema),
-        localizacao: this.coordenada_user,
-      },
+      body: postdados,
       idUser: {headers: {userID: 4}}
     }
+    console.log('chegou em OnSalvarPost' + JSON.stringify(post.body, null, 2))
     this.postService.salvarPost(post)
+    this.form.reset()
   }
-
 
   getLocalizacao() {
   if (navigator.geolocation) {

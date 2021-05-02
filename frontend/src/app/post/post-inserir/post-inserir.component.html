@@ -1,5 +1,5 @@
 <div class="container">
-  <form #postForm="ngForm">
+  <form [formGroup]="form" (submit)="onSalvarPost()">
     <div class="row mt-4">
       <div class="col-lg-1 col-2">
         <img src="{{user.imagem}}" class="img-fluid mt-4 rounded-circle">
@@ -12,7 +12,7 @@
             id="temaInput"
             class="form-control rounded-pill"
             name="tema"
-            ngModel>
+            formControlName="tema">
             <option value="">Selecione</option>
             <option *ngFor="let tema of temas">{{tema.nome}}</option>
           </select>
@@ -21,7 +21,7 @@
     </div>
     <div class="row mt-2">
       <div class="col-lg-1 col-2">
-        <button (click)="getLocalizacao()" mat-icon-button style="width: 80%;">
+        <button type="button" (click)="getLocalizacao()" mat-icon-button style="width: 80%;">
           <mat-icon style="font-size: 34px" color="primary">location_on</mat-icon>
         </button>
       </div>
@@ -32,7 +32,8 @@
           placeholder="localização"
           class="form-control rounded-pill"
           name="localizacao"
-          [ngModel]="user?.localizacao">
+          formControlName="localizacao"
+        >
       </div>
     </div>
   </div>
@@ -42,13 +43,13 @@
           aria-label="Digite sua informação aqui"
           placeholder="Digite sua informação aqui"
           name="texto"
-          ngModel>
+          formControlName="texto">
         </textarea>
       </div>
     </div>
     <div class="row mt-2 justify-content-md-between">
       <div class="col-2" color="secondary">
-        <button mat-icon-button (click)="selecionaArquivo.click()">
+        <button type="button" mat-icon-button (click)="selecionaArquivo.click()">
           <mat-icon style="font-size: 50px" color="primary">add_photo_alternate</mat-icon>
         </button>
         <input type="file" (change)="onImagemSelecionada($event)" #selecionaArquivo>
@@ -56,12 +57,17 @@
       <div class="col">
         <div class="col-2">
           <div class="imagem-preview">
-            <img [src]="previewImagem" class='img-fluid' *ngIf="previewImagem && previewImagem !== ''" [alt]="postForm">
+            <img
+              [src]="previewImagem"
+              class='img-fluid'
+              *ngIf="previewImagem && previewImagem !== '' && form.get('imagem').valid"
+              [alt]="postForm"
+            >
           </div>
         </div>
       </div>
       <div class="col-1 mr-xl-3 mr-lg-4 mr-md-5">
-        <button class="btn btn-primary rounded-pill" (click)="onSalvarPost(postForm)">Publicar</button>
+        <button class="btn btn-primary rounded-pill">Publicar</button>
       </div>
     </div>
   </form>
