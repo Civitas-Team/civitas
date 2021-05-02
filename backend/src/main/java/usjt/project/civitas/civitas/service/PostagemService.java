@@ -31,6 +31,12 @@ public class PostagemService {
         return postagemRepo.save(postagem);
     }
     
+    //TODO: criar lógica de postagens próximas aqui
+	public List<Postagem> getPosts(String userID){
+		return postagemRepo.findAll();
+	}
+    
+    //TODO: apenas para testes, remover essa parada depois
 	public List<Postagem> getAll(){
 		return postagemRepo.findAll();
 	}
