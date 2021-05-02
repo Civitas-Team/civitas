@@ -38,7 +38,7 @@ export class PostService {
   }
 
   salvarPost(post: { body: {}; idUser: {}; }) {
-    this.axios.post('https://localhost:8080/postagem', post.body, post.idUser)
+    this.axios.post('http://localhost:3000/api/clientes', post.body, post.idUser)
   }
 
 }
