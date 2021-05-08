@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, NgForm, FormControl } from '@angular/forms'
+import { FormGroup, Validators, FormControl } from '@angular/forms'
 import { User } from '../user.model'
 import { Tema } from '../tema.model'
 import { PostService } from '../post.service'
@@ -12,60 +12,62 @@ import { mimeTypeValidator } from './mime-type.validator'
 
 export class PostInserirComponent implements OnInit {
 
+  form: FormGroup;
+  isCarregando: boolean = false;
+
+  // Usar para desenvolvimento
+  // user = {
+  //   nome: "Nome do usuário",
+  //   localizacao: "Localizacao do usuário",
+  //   imagem: "../../assets/profile.png"
+  // }
+  // temas = [
+  //   {
+  //     id: 1,
+  //     nome: "Covid-19"
+  //   },
+  //   {
+  //     id: 2,
+
+  //     nome: "Doação"
+  //   },
+  //   {
+  //     id: 3,
+  //     nome: "Hospital"
+  //   },
+  // ]
+
+  // Usar para produção
+  user: User
+  temas: Tema[] = []
+  previewImagem: string
+  coordenada_user: string
+
   constructor(public postService: PostService) {}
 
-  ngOnInit(): void {
+  async ngOnInit(){
+    this.isCarregando = true
     // **Usar para produção**
-    // this.temas = this.postService.getListaTemas();
-    // this.user = this.postService.getUser();
-    // this.coordenada_user = this.user.localizacao
+    this.temas = await this.postService.getListaTemas();
+    this.user = await this.postService.getUser();
+    const localizacao = await this.postService.converteLocalizacaoTexto(this.user.localizacao)
+    this.coordenada_user = this.user.localizacao
     this.form = new FormGroup({
-      localizacao: new FormControl(null, {
+      localizacao: new FormControl(localizacao, {
         validators: [Validators.required]
       }),
       tema: new FormControl(null, {
         validators: [Validators.required]
       }),
-      texto: new FormControl(null, {
+      corpo: new FormControl(null, {
         validators: [Validators.required]
       }),
       imagem: new FormControl(null, {
         validators: []
       })
     })
+    this.isCarregando = false
   }
-
-  form: FormGroup;
-
-  // Usar para desenvolvimento
-  user = {
-    nome: "Nome do usuário",
-    localizacao: "Localizacao do usuário",
-    imagem: "../../assets/profile.png"
-  }
-
-  temas = [
-    {
-      id: 1,
-      nome: "Covid-19"
-    },
-    {
-      id: 2,
-      nome: "Doação"
-    },
-    {
-      id: 3,
-      nome: "Hospital"
-    },
-  ]
-
-
-  // Usar para produção
-  // user: User
-  // temas: Tema[]
-
-  previewImagem: string
-  coordenada_user: string
 
 
 
@@ -95,35 +97,32 @@ export class PostInserirComponent implements OnInit {
     if (this.form.invalid){
       return
     }
-
     const postdados = {
       localizacao: this.coordenada_user,
-      tema: this.getIdTema(this.form.value.tema),
-      texto: this.form.value.texto,
+      temaId: this.getIdTema(this.form.value.tema),
+      corpo: this.form.value.corpo,
       imagem: this.form.value.imagem
     }
-
     // const dadosPost = new FormData()
     // dadosPost.append('localizacao', this.coordenada_user)
     // dadosPost.append('tema', this.getIdTema(this.form.value.tema).toString())
     // dadosPost.append('texto', this.form.value.texto)
     // dadosPost.append('imagem', this.form.value.imagem)
-
     const post = {
       body: postdados,
       idUser: {headers: {userID: 4}}
     }
-    console.log('chegou em OnSalvarPost' + JSON.stringify(post.body, null, 2))
     this.postService.salvarPost(post)
     this.form.reset()
   }
 
   getLocalizacao() {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(position => {
+    navigator.geolocation.getCurrentPosition(async position => {
         const { latitude, longitude } = position.coords
         this.coordenada_user = `${latitude},${longitude}`
-        this.postService.converteLocalizacaoTexto({ latitude, longitude })
+        const localizacao = await this.postService.converteLocalizacaoTexto(this.coordenada_user)
+        this.form.patchValue({localizacao: localizacao})
       });
     } else {
     this.user.localizacao = "Seu browser não suporta Geolocalização.";}

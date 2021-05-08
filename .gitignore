@@ -5,7 +5,7 @@ bin-release/
 [Bb]in/
 frontend/node_modules/
 frontend/.env
-
+frontend/src/environments/*
 # Other files and folders
 .settings/
 

@@ -1,3 +1,5 @@
+<mat-spinner *ngIf="isCarregando"></mat-spinner>
+<div *ngIf="!isCarregando">
 <div *ngFor="let post of posts" class="container mb-3 rounded" style="background-color: #ccdbdb;">
   <div class="row pt-1">
     <div class="col-lg-1 col-2">
@@ -36,4 +38,5 @@
   <div class="row justify-content-center">
     <img src="{{img}}" class="img-fluid mb-2" style="max-height: 380px">
   </div>
+</div>
 </div>

@@ -1,8 +1,9 @@
 <div class="container">
-  <form [formGroup]="form" (submit)="onSalvarPost()">
+  <mat-spinner *ngIf='isCarregando'></mat-spinner>
+  <form [formGroup]="form" (submit)="onSalvarPost()" *ngIf='!isCarregando'>
     <div class="row mt-4">
       <div class="col-lg-1 col-2">
-        <img src="{{user.imagem}}" class="img-fluid mt-4 rounded-circle">
+        <img [src]="user.imagem" [alt]="user.nome" class="img-fluid mt-4 rounded-circle"/>
       </div>
       <div class="column col-lg-11 col-10">
         <h4 class="d-block ">{{user.nome}}</h4>
@@ -33,6 +34,7 @@
           class="form-control rounded-pill"
           name="localizacao"
           formControlName="localizacao"
+          value="valor não sei"
         >
       </div>
     </div>
@@ -42,8 +44,8 @@
         <textarea class="form-control rounded-3"
           aria-label="Digite sua informação aqui"
           placeholder="Digite sua informação aqui"
-          name="texto"
-          formControlName="texto">
+          name="corpo"
+          formControlName="corpo">
         </textarea>
       </div>
     </div>
@@ -60,7 +62,7 @@
             <img
               [src]="previewImagem"
               class='img-fluid'
-              *ngIf="previewImagem && previewImagem !== '' && form.get('imagem').valid"
+              *ngIf="previewImagem && previewImagem !== ''"
               [alt]="postForm"
             >
           </div>
