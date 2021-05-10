@@ -9,6 +9,7 @@ import { PostInserirComponent } from './post/post-inserir/post-inserir.component
 import { PostReadComponent } from './post/post-read/post-read.component'
 import { MenuComponent } from './menu/menu.component';
 
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatCardModule} from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -43,7 +44,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatMenuModule,
     AppRoutingModule,
     MatChipsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    InfiniteScrollModule
   ],
   providers: [],
   bootstrap: [AppComponent]

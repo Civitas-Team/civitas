@@ -9,7 +9,11 @@ export class PostReadComponent implements OnInit {
 
   postService = new PostService()
   isCarregando: boolean = false;
-
+  isPrimeiroLoading: boolean = true
+  userId: number = 4
+  totalPaginas: number
+  pagina: number = 1
+  fim: boolean = false
   posts
 
   img = "../../assets/imagem.jpg"
@@ -21,8 +25,24 @@ export class PostReadComponent implements OnInit {
 
   async ngOnInit() {
     this.isCarregando = true
-    this.posts = await this.postService.getPosts(1, {headers: {userID: 4}})
+    const respostaPosts = await this.postService.getPosts(1, this.userId)
+    this.totalPaginas = respostaPosts.totalPages
+    this.posts = respostaPosts.data
+    this.isPrimeiroLoading = false
     this.isCarregando = false
   }
 
+  async onScroll() {
+    console.log('adicionando mais items...')
+    if(this.pagina >= this.totalPaginas) {
+      this.fim = true
+      return;
+    }
+    this.isCarregando = true
+    this.pagina++
+    const respostaPosts = await this.postService.getPosts(this.pagina, this.userId)
+    this.posts = this.posts.concat(respostaPosts.data)
+    console.log(this.posts)
+    this.isCarregando = false
+  }
 }

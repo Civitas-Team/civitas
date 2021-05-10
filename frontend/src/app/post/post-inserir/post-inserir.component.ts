@@ -110,7 +110,7 @@ export class PostInserirComponent implements OnInit {
     // dadosPost.append('imagem', this.form.value.imagem)
     const post = {
       body: postdados,
-      idUser: {headers: {userID: 4}}
+      userId: 4
     }
     this.postService.salvarPost(post)
     this.form.reset()

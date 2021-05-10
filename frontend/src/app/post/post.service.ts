@@ -23,13 +23,15 @@ export class PostService {
     })
   }
 
-  salvarPost(post: { body: {}; idUser: {}; }) {
-    this.axios.post(`${this.url}/postagem`, post.body, post.idUser)
+  salvarPost(post: { body: {}; userId: number; }) {
+    this.axios.post(`${this.url}/postagem`, post.body, {headers: {userID: post.userId}})
   }
 
-  async getPosts(page, userId) {
-    return await this.axios.get(`${this.url}/postagem/getPosts?itensPerPage=6&currentPage=${page}`, userId).then((res) => {
-      return res.data.data
+  async getPosts(page: number, userId: number) {
+    return await this.axios
+      .get(`${this.url}/postagem/getPosts?itensPerPage=4&currentPage=${page}`, {headers: {userID: userId}})
+      .then((res) => {
+      return res.data
     })
   }
 

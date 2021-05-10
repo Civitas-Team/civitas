@@ -1,42 +1,53 @@
-<mat-spinner *ngIf="isCarregando"></mat-spinner>
-<div *ngIf="!isCarregando">
-<div *ngFor="let post of posts" class="container mb-3 rounded" style="background-color: #ccdbdb;">
-  <div class="row pt-1">
-    <div class="col-lg-1 col-2">
-      <img src="{{post.pessoa.imagem}}" class="img-fluid rounded-circle">
-    </div>
-    <div class="col-lg-7 col-4">
-      <h4 class="mt-2">{{post.pessoa.nome}}</h4>
-      <h7>1 min atrás</h7>
-    </div>
-    <div class="col-lg-4 col-6">
-      <div class="m-md-3 m-2 d-inline-block float-right">
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-          <mat-icon style="font-size: 34px" color="primary">location_on</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu" style="width: 500px">
-          <app-post-inserir></app-post-inserir>
-        </mat-menu>
+
+<div
+  infinite-scroll
+  infiniteScrollDistance="1"
+  infiniteScrollThrottle="50"
+  (scrolled)="onScroll()">
+  <div *ngIf="!isPrimeiroLoading">
+    <div *ngFor="let post of posts" class="container mb-3 rounded" style="background-color: #ccdbdb;">
+      <div class="row pt-1">
+        <div class="col-lg-1 col-2">
+          <img src="{{post.pessoa.imagem}}" class="img-fluid rounded-circle">
+        </div>
+        <div class="col-lg-7 col-4">
+          <h4 class="mt-2">{{post.pessoa.nome}}</h4>
+          <h7>1 min atrás</h7>
+        </div>
+        <div class="col-lg-4 col-6">
+          <div class="m-md-3 m-2 d-inline-block float-right">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon style="font-size: 34px" color="primary">location_on</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" style="width: 500px">
+              <app-post-inserir></app-post-inserir>
+            </mat-menu>
+          </div>
+          <h5 class="localizacao mt-md-4 mt-3 d-inline-block float-right" style="font-size: 16px">Está a 5km de você</h5>
+        </div>
       </div>
-      <h5 class="localizacao mt-md-4 mt-3 d-inline-block float-right" style="font-size: 16px">Está a 5km de você</h5>
+      <div class="row">
+        <div class="col-4">
+          <mat-chip-list aria-label="Fish selection">
+            <mat-chip color="primary" class="mt-2" selected>{{post.tema.nome}}</mat-chip>
+          </mat-chip-list>
+        </div>
+      </div>
+      <div class="row mt-2">
+      </div>
+      <div class="row mr-2 ml-2">
+        <div class="col-12">
+          <p class="mt-2">{{post.corpo}}</p>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <img src="{{img}}" class="img-fluid mb-2" style="max-height: 380px">
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-4">
-      <mat-chip-list aria-label="Fish selection">
-        <mat-chip color="primary" class="mt-2" selected>{{post.tema.nome}}</mat-chip>
-      </mat-chip-list>
-    </div>
-  </div>
-  <div class="row mt-2">
-  </div>
-  <div class="row mr-2 ml-2">
-    <div class="col-12">
-      <p class="mt-2">{{post.corpo}}</p>
-    </div>
-  </div>
-  <div class="row justify-content-center">
-    <img src="{{img}}" class="img-fluid mb-2" style="max-height: 380px">
   </div>
 </div>
+<mat-spinner *ngIf="isCarregando"></mat-spinner>
+<div *ngIf="fim">
+  Por hora essas são as publicações da sua região.
+  Volte mais tarde :)
 </div>
