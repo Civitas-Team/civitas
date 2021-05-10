@@ -1,4 +1,3 @@
-
 <div
   infinite-scroll
   infiniteScrollDistance="1"
@@ -12,7 +11,7 @@
         </div>
         <div class="col-lg-7 col-4">
           <h4 class="mt-2">{{post.pessoa.nome}}</h4>
-          <h7>1 min atrás</h7>
+          <h7>{{formataData(post.data)}}</h7>
         </div>
         <div class="col-lg-4 col-6">
           <div class="m-md-3 m-2 d-inline-block float-right">

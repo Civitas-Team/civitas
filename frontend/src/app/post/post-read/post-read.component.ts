@@ -21,6 +21,20 @@ export class PostReadComponent implements OnInit {
     localizacao: 'localizacao'
   }
 
+
+  adicionaZero(numero){
+    if (numero <= 9) 
+      return "0" + numero;
+    else
+      return numero; 
+}
+  formataData(data){
+    let dataPost = new Date(data);
+    return (this.adicionaZero(dataPost.getDate().toString()) + "/" + (this.adicionaZero(dataPost.getMonth()+1).toString()) + "/" + dataPost.getFullYear());
+  }
+
+
+
   constructor() { }
 
   async ngOnInit() {
