@@ -38,7 +38,9 @@ public class Pessoa implements Serializable {
 	@Column
 	private String imagem;
 	@Column
-	private String localizacao;
+	private String latitdeLongitude;
+	@Column
+	private String cidade;
 	@Column
 	private String senha;
 	@Column
@@ -98,14 +100,6 @@ public class Pessoa implements Serializable {
 		this.imagem = imagem;
 	}
 
-	public String getLocalizacao() {
-		return localizacao;
-	}
-
-	public void setLocalizacao(String localizacao) {
-		this.localizacao = localizacao;
-	}
-
 	public String getSenha() {
 		return senha;
 	}
@@ -134,17 +128,34 @@ public class Pessoa implements Serializable {
 		this.postagem = postagem;
 	}
 
+	public String getLatitdeLongitude() {
+		return latitdeLongitude;
+	}
+
+	public void setLatitdeLongitude(String latitdeLongitude) {
+		this.latitdeLongitude = latitdeLongitude;
+	}
+
+	public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((biografia == null) ? 0 : biografia.hashCode());
+		result = prime * result + ((cidade == null) ? 0 : cidade.hashCode());
 		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((emailConfirmado == null) ? 0 : emailConfirmado.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((imagem == null) ? 0 : imagem.hashCode());
-		result = prime * result + ((localizacao == null) ? 0 : localizacao.hashCode());
+		result = prime * result + ((latitdeLongitude == null) ? 0 : latitdeLongitude.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((postagem == null) ? 0 : postagem.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
@@ -164,6 +175,11 @@ public class Pessoa implements Serializable {
 			if (other.biografia != null)
 				return false;
 		} else if (!biografia.equals(other.biografia))
+			return false;
+		if (cidade == null) {
+			if (other.cidade != null)
+				return false;
+		} else if (!cidade.equals(other.cidade))
 			return false;
 		if (cpf == null) {
 			if (other.cpf != null)
@@ -190,10 +206,10 @@ public class Pessoa implements Serializable {
 				return false;
 		} else if (!imagem.equals(other.imagem))
 			return false;
-		if (localizacao == null) {
-			if (other.localizacao != null)
+		if (latitdeLongitude == null) {
+			if (other.latitdeLongitude != null)
 				return false;
-		} else if (!localizacao.equals(other.localizacao))
+		} else if (!latitdeLongitude.equals(other.latitdeLongitude))
 			return false;
 		if (nome == null) {
 			if (other.nome != null)
@@ -212,4 +228,5 @@ public class Pessoa implements Serializable {
 			return false;
 		return true;
 	}
+	
 }

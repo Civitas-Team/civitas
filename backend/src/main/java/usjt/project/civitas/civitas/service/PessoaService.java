@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import usjt.project.civitas.civitas.entity.Pessoa;
-import usjt.project.civitas.civitas.entity.exception.IDNullException;
-import usjt.project.civitas.civitas.entity.exception.NotFoundPersonException;
 import usjt.project.civitas.civitas.repository.PessoaRepository;
+import usjt.project.civitas.civitas.validation.IDNullException;
+import usjt.project.civitas.civitas.validation.NotFoundPersonException;
 
 
 // TODO: encryptar a senha, fazer o envio de email e mudar o paradigma para orientação à exception
