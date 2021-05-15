@@ -1,10 +1,10 @@
 <div
   infinite-scroll
-  infiniteScrollDistance="1"
-  infiniteScrollThrottle="50"
+  [infiniteScrollDistance]="infiniteScrollDistance"
+  [infiniteScrollThrottle]="infiniteScrollThrottle"
   (scrolled)="onScroll()">
   <div *ngIf="!isPrimeiroLoading">
-    <div *ngFor="let post of posts" class="container mb-3 rounded" style="background-color: #ccdbdb;">
+    <div *ngFor="let post of posts" class="container mb-3 rounded post">
       <div class="row pt-1">
         <div class="col-lg-1 col-2">
           <img src="{{post.pessoa.imagem}}" class="img-fluid rounded-circle">
@@ -28,7 +28,7 @@
       <div class="row">
         <div class="col-4">
           <mat-chip-list aria-label="Fish selection">
-            <mat-chip color="primary" class="mt-2" selected>{{post.tema.nome}}</mat-chip>
+            <mat-chip color="primary" class="mt-2" selected>post</mat-chip>
           </mat-chip-list>
         </div>
       </div>
@@ -46,7 +46,18 @@
   </div>
 </div>
 <mat-spinner *ngIf="isCarregando"></mat-spinner>
-<div *ngIf="fim">
-  Por hora essas são as publicações da sua região.
-  Volte mais tarde :)
+<div *ngIf="fim" class="container mb-3 rounded mensagemFinalFeed post">
+  <div class="row justify-content-center">
+    <div class="col-md-6" style="align-content: center">
+      <img src="./assets/civitas-logo.png" alt="logo">
+    </div>
+    <div class="col-md-6">
+      <p>
+        Por hora essas são as publicações da sua região.
+      </p>
+      <p>
+        Volte mais tarde!
+      </p>
+    </div>
+  </div>
 </div>

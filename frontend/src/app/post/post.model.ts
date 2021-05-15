@@ -1,5 +1,11 @@
+import { Tema } from "./tema.model";
+import { User } from "./user.model";
+
 export interface Post {
+  data?: string;
   corpo: string;
   imagem: File;
-  tema: string;
+  localizacao?: string;
+  pessoa: User;
+  tema: Tema;
 }

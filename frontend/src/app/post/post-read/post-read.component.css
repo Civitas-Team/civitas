@@ -1,3 +1,20 @@
 mat-spinner{
   margin: auto;
 }
+
+.post{
+  background-color: #ccdbdb;
+}
+
+.mensagemFinalFeed{
+  padding: 3rem;
+}
+
+.mensagemFinalFeed p{
+  text-align: center;
+  font-size: 20px;
+}
+
+agm-map {
+  height: 600px;
+}
