@@ -42,6 +42,7 @@ export class PostInserirComponent implements OnInit {
   temas: Tema[] = []
   previewImagem: string
   coordenada_user: string
+  cidade_post: string
 
   constructor(public postService: PostService) {}
 
@@ -122,7 +123,8 @@ export class PostInserirComponent implements OnInit {
         const { latitude, longitude } = position.coords
         this.coordenada_user = `${latitude},${longitude}`
         const localizacao = await this.postService.converteLocalizacaoTexto(this.coordenada_user)
-        this.form.patchValue({localizacao: localizacao})
+        this.form.patchValue({localizacao: localizacao.endereco})
+        this.cidade_post = localizacao.cidade
       });
     } else {
     this.user.localizacao = "Seu browser não suporta Geolocalização.";}

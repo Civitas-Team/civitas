@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from '../post.model';
 import {PostService} from '../post.service'
-
+import { environment } from '../../../environments/environment'
 @Component({
   selector: 'app-post-read',
   templateUrl: './post-read.component.html',
@@ -9,6 +9,7 @@ import {PostService} from '../post.service'
 })
 export class PostReadComponent implements OnInit {
 
+  apiKey: string = environment.google_api_key
   infiniteScrollDistance: number = 1
   infiniteScrollThrottle: number = 50
   postService = new PostService()
@@ -20,7 +21,7 @@ export class PostReadComponent implements OnInit {
   fim: boolean = false
   postImagem: string
   posts: Post[]
-
+  localizacao: string = "-23.532466,-46.529625"
   img = "../../assets/imagem.jpg"
   // post = {
   //   localizacao: 'localizacao'
@@ -53,7 +54,6 @@ export class PostReadComponent implements OnInit {
   }
 
   async onScroll() {
-    console.log('adicionando mais items...')
     if(this.pagina >= this.totalPaginas) {
       this.fim = true
       return;
@@ -62,7 +62,6 @@ export class PostReadComponent implements OnInit {
     this.pagina++
     const respostaPosts = await this.postService.getPosts(this.pagina, this.userId)
     this.posts = this.posts.concat(respostaPosts.data)
-    console.log(this.posts)
     this.isCarregando = false
   }
 

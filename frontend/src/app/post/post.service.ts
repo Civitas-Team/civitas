@@ -41,7 +41,11 @@ export class PostService {
       .get(url)
       .then((res) => {
         const address_components = res["data"]["results"][0]["address_components"]
-        return `${address_components[1]["short_name"]}, ${address_components[2]["short_name"]} - ${address_components[3]["short_name"]}`
+        // return `${address_components[1]["short_name"]}, ${address_components[2]["short_name"]} - ${address_components[3]["short_name"]}`
+        return {
+          endereco: `${address_components[1]["short_name"]}, ${address_components[2]["short_name"]} - ${address_components[3]["short_name"]}`,
+          cidade: address_components[3]["short_name"]
+        }
       })
   }
 }

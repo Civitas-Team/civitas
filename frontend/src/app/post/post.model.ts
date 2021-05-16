@@ -8,4 +8,5 @@ export interface Post {
   localizacao?: string;
   pessoa: User;
   tema: Tema;
+  distanciaDaPessoaLogada: string;
 }
