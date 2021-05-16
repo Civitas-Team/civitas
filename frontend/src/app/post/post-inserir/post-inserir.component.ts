@@ -54,7 +54,7 @@ export class PostInserirComponent implements OnInit {
     const localizacao = await this.postService.converteLocalizacaoTexto(this.user.localizacao)
     this.coordenada_user = this.user.localizacao
     this.form = new FormGroup({
-      localizacao: new FormControl(localizacao, {
+      localizacao: new FormControl(localizacao.endereco, {
         validators: [Validators.required]
       }),
       tema: new FormControl(null, {
@@ -102,8 +102,10 @@ export class PostInserirComponent implements OnInit {
       localizacao: this.coordenada_user,
       temaId: this.getIdTema(this.form.value.tema),
       corpo: this.form.value.corpo,
-      imagem: this.form.value.imagem
+      imagem: this.form.value.imagem,
+      cidade: this.cidade_post
     }
+    console.log(postdados)
     // const dadosPost = new FormData()
     // dadosPost.append('localizacao', this.coordenada_user)
     // dadosPost.append('tema', this.getIdTema(this.form.value.tema).toString())

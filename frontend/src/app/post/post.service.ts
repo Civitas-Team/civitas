@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment'
 @Injectable({ providedIn: 'root'})
 export class PostService {
 
-  url = 'https://civitasapi.herokuapp.com'
+  url = 'https://apicivitas.herokuapp.com'
   axios = axios
   APIkey = environment.google_api_key
   user: User
