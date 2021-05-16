@@ -1,4 +1,4 @@
-package usjt.project.civitas.civitas.entity.exception;
+package usjt.project.civitas.civitas.validation;
 
 public class IDNullException extends Exception {
 

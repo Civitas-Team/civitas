@@ -1,7 +1,6 @@
 package usjt.project.civitas.civitas.entity;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -39,6 +37,8 @@ public class Postagem implements Serializable {
 	private String imagem;
 	@Column
 	private String localizacao;
+	@Column
+	private String cidade;
     @ManyToOne(fetch = FetchType.EAGER)
     private Pessoa pessoa;
 	@OneToOne(/*fetch = FetchType.EAGER*/)
@@ -46,6 +46,8 @@ public class Postagem implements Serializable {
 	private Tema tema;
 	@Transient
 	private Long temaId;
+	@Transient
+	private String distanciaDaPessoaLogada;
 	
 	public Long getId() {
 		return id;
@@ -101,6 +103,19 @@ public class Postagem implements Serializable {
 	public void setTemaId(Long temaId) {
 		this.temaId = temaId;
 	}
+	public String getCidade() {
+		return cidade;
+	}
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+	public String getDistanciaDaPessoaLogada() {
+		return distanciaDaPessoaLogada;
+	}
+	public void setDistanciaDaPessoaLogada(String distanciaDaPessoaLogada) {
+		this.distanciaDaPessoaLogada = distanciaDaPessoaLogada;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

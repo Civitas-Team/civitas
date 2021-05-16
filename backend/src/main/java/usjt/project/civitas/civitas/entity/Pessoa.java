@@ -1,7 +1,6 @@
 package usjt.project.civitas.civitas.entity;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -9,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -39,6 +37,8 @@ public class Pessoa implements Serializable {
 	private String imagem;
 	@Column
 	private String localizacao;
+	@Column
+	private String cidade;
 	@Column
 	private String senha;
 	@Column
@@ -98,14 +98,6 @@ public class Pessoa implements Serializable {
 		this.imagem = imagem;
 	}
 
-	public String getLocalizacao() {
-		return localizacao;
-	}
-
-	public void setLocalizacao(String localizacao) {
-		this.localizacao = localizacao;
-	}
-
 	public String getSenha() {
 		return senha;
 	}
@@ -134,11 +126,28 @@ public class Pessoa implements Serializable {
 		this.postagem = postagem;
 	}
 
+	public String getLocalizacao() {
+		return localizacao;
+	}
+
+	public void setLocalizacao(String localizacao) {
+		this.localizacao = localizacao;
+	}
+
+	public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((biografia == null) ? 0 : biografia.hashCode());
+		result = prime * result + ((cidade == null) ? 0 : cidade.hashCode());
 		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((emailConfirmado == null) ? 0 : emailConfirmado.hashCode());
@@ -164,6 +173,11 @@ public class Pessoa implements Serializable {
 			if (other.biografia != null)
 				return false;
 		} else if (!biografia.equals(other.biografia))
+			return false;
+		if (cidade == null) {
+			if (other.cidade != null)
+				return false;
+		} else if (!cidade.equals(other.cidade))
 			return false;
 		if (cpf == null) {
 			if (other.cpf != null)
@@ -212,4 +226,5 @@ public class Pessoa implements Serializable {
 			return false;
 		return true;
 	}
+	
 }

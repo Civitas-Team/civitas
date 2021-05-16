@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -23,6 +25,10 @@ import usjt.project.civitas.civitas.helper.PaginationHelper;
 import usjt.project.civitas.civitas.helper.ResponseEntityHelper;
 import usjt.project.civitas.civitas.service.PessoaService;
 import usjt.project.civitas.civitas.service.PostagemService;
+import usjt.project.civitas.civitas.validation.EntityIDValidation;
+import usjt.project.civitas.civitas.validation.InvalidTokenException;
+import usjt.project.civitas.civitas.validation.NotFoundPersonException;
+import usjt.project.civitas.civitas.validation.NotFoundPostException;
 
 @RestController
 @RequestMapping("/postagem")
@@ -52,12 +58,10 @@ public class PostagemController {
 		@RequestParam(required = false, value = "itensPerPage") String itensPerPageParam,
 		@RequestHeader String userID) {
 		
-		List<Postagem> posts = postagemService.getPosts(userID);
+		List<Postagem> posts = postagemService.getPosts(Long.parseLong(userID));
         
         int totalOfResults = posts.size();
-		
 		int itensPerPage = Integer.parseInt(itensPerPageParam);
-	
 		int totalPages = 1;
 		
 		if (totalOfResults > itensPerPage) {
@@ -76,9 +80,27 @@ public class PostagemController {
 		return searchResult;
     }
     
-	//TODO: apenas para testes, remover essa parada depois
-	@GetMapping("/getAll")
-	public ResponseEntity<?> getAll(){
-		return ResponseEntity.ok(postagemService.getAll());
-	}
+    @DeleteMapping(value = "/{id}", produces = ConstantsHelper.APPLICATION_JSON)
+    public ResponseEntity<?> delete(@RequestHeader String userID, @PathVariable("id") String idParam,
+            HttpServletRequest request) {
+        try {
+            EntityIDValidation.validateID(idParam);
+        } catch (NumberFormatException e) {
+            return ResponseEntityHelper.createResponse(e, HttpStatus.BAD_REQUEST, request);
+        }
+        Long postId = Long.parseLong(idParam);
+        Long userIdParsed = Long.parseLong(userID);
+    	try {
+			postagemService.delete(postId, userIdParsed);
+		} catch (NotFoundPostException | NotFoundPersonException | InvalidTokenException e) {
+          if (e.getClass() == InvalidTokenException.class) {
+	          return ResponseEntityHelper.createResponse(e, HttpStatus.FORBIDDEN, request);
+	      }
+	      return ResponseEntityHelper.createResponse(e, HttpStatus.NOT_FOUND, request);
+		}
+        final String MSG_DELETE_OK = "Post excluído com sucesso.";
+        ApiMessage message = ApiMessage.buildMessage(MSG_DELETE_OK, request);
+        return ResponseEntity.ok(message);
+    }
 }
+
