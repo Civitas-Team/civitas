@@ -1,7 +1,6 @@
 package usjt.project.civitas.civitas.entity;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -9,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -38,7 +36,7 @@ public class Pessoa implements Serializable {
 	@Column
 	private String imagem;
 	@Column
-	private String latitdeLongitude;
+	private String localizacao;
 	@Column
 	private String cidade;
 	@Column
@@ -128,12 +126,12 @@ public class Pessoa implements Serializable {
 		this.postagem = postagem;
 	}
 
-	public String getLatitdeLongitude() {
-		return latitdeLongitude;
+	public String getLocalizacao() {
+		return localizacao;
 	}
 
-	public void setLatitdeLongitude(String latitdeLongitude) {
-		this.latitdeLongitude = latitdeLongitude;
+	public void setLocalizacao(String localizacao) {
+		this.localizacao = localizacao;
 	}
 
 	public String getCidade() {
@@ -155,7 +153,7 @@ public class Pessoa implements Serializable {
 		result = prime * result + ((emailConfirmado == null) ? 0 : emailConfirmado.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((imagem == null) ? 0 : imagem.hashCode());
-		result = prime * result + ((latitdeLongitude == null) ? 0 : latitdeLongitude.hashCode());
+		result = prime * result + ((localizacao == null) ? 0 : localizacao.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((postagem == null) ? 0 : postagem.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
@@ -206,10 +204,10 @@ public class Pessoa implements Serializable {
 				return false;
 		} else if (!imagem.equals(other.imagem))
 			return false;
-		if (latitdeLongitude == null) {
-			if (other.latitdeLongitude != null)
+		if (localizacao == null) {
+			if (other.localizacao != null)
 				return false;
-		} else if (!latitdeLongitude.equals(other.latitdeLongitude))
+		} else if (!localizacao.equals(other.localizacao))
 			return false;
 		if (nome == null) {
 			if (other.nome != null)

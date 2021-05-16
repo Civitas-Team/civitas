@@ -58,7 +58,7 @@ public class PostagemController {
 		@RequestParam(required = false, value = "itensPerPage") String itensPerPageParam,
 		@RequestHeader String userID) {
 		
-		List<Postagem> posts = postagemService.getPosts(userID);
+		List<Postagem> posts = postagemService.getPosts(Long.parseLong(userID));
         
         int totalOfResults = posts.size();
 		int itensPerPage = Integer.parseInt(itensPerPageParam);
