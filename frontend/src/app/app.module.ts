@@ -6,8 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { PostInserirComponent } from './post/post-inserir/post-inserir.component';
-import { PostReadComponent } from './post/post-read/post-read.component'
-import { MenuComponent } from './menu/menu.component';
+import { PostReadComponent } from './post/post-read/post-read.component';
 
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatCardModule} from '@angular/material/card';
@@ -20,6 +19,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RootNavComponent } from './root-nav/root-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatListModule } from '@angular/material/list';
 
 
 @NgModule({
@@ -27,7 +29,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     AppComponent,
     PostInserirComponent,
     PostReadComponent,
-    MenuComponent
+    RootNavComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +47,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatChipsModule,
     MatProgressSpinnerModule,
     InfiniteScrollModule,
+    LayoutModule,
+    MatListModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
