@@ -8,10 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class LoginComponent implements OnInit {
 
   isCarregando: boolean = false;
-
   constructor() { }
 
   ngOnInit(): void {
   }
-
 }
