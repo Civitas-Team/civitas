@@ -128,7 +128,7 @@ public class PessoaService {
 				Pessoa usuario = pessoa.get();
 				
 				if(usuario.getToken() != null && !usuario.getToken().isEmpty()) {
-					return usuario.getToken().compareTo(token) == 0;
+					return usuario.getToken().equals(token);
 				} else {
 					throw new NullTokenException();
 				}
@@ -160,7 +160,7 @@ public class PessoaService {
 				//Valida se token do usuário não é nulo
 				if(usuario.getToken() != null && !usuario.getToken().isEmpty()) {
 					//Valida se o token recebido é o mesmo do usuário a ter o token excluido
-					if(usuario.getToken().compareTo(token) == 0) {
+					if(usuario.getToken().equals(token)) {
 						usuario.setToken(null);
 						repo.save(usuario);
 						return true;
