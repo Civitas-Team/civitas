@@ -1,0 +1,34 @@
+<div class="container">
+    <mat-spinner *ngIf='isCarregando'></mat-spinner>
+    <form action="">
+        <div class="row m-5">
+            <h1 class="text-center">Entrar no Civitas</h1>
+            <div class="col-2"></div>
+            <div class="col-8">
+                <mat-card>
+                    <div>
+                        <mat-form-field appearance="outline" class="d-block">
+                            <mat-label>Email,celular ou nome do usuário</mat-label>
+                            <input matInput placeholder="Ex:nome@email.com" required="true" type="email">
+                            <mat-icon matSuffix>account_circle</mat-icon>
+                        </mat-form-field>
+                
+                        <mat-form-field appearance="outline" class="d-block">
+                            <mat-label>Senha</mat-label>
+                            <input matInput type="password" required="true">
+                            <mat-icon matSuffix>lock</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div style="text-align: right">
+                        <button mat-raised-button color="primary">Entrar</button>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </form>
+    <div style="text-align: center">
+        <a href="" class="d-block">Não possui conta ? Cadastra-se</a>
+        <a href="">Esqueci minha senha</a>
+    </div>
+</div>
+  

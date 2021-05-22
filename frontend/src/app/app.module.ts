@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { PostInserirComponent } from './post/post-inserir/post-inserir.component';
 import { PostReadComponent } from './post/post-read/post-read.component';
+import { LoginComponent } from './login/login.component';
 
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatCardModule} from '@angular/material/card';
@@ -30,6 +31,7 @@ import { MatListModule } from '@angular/material/list';
     PostInserirComponent,
     PostReadComponent,
     RootNavComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
