@@ -9,4 +9,5 @@ import usjt.project.civitas.civitas.entity.Pessoa;
 public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
 	public Pessoa findByEmail(String email);
 	public Pessoa findByCpf(String cpf);
+	public Pessoa findByToken(String token);
 }

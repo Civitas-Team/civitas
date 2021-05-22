@@ -42,12 +42,19 @@ public class Pessoa implements Serializable {
 	@Column
 	private String senha;
 	@Column
+	private String token;
+	@Column
 	private Boolean emailConfirmado;
 	@OneToMany(mappedBy = "pessoa")
 	@JsonBackReference
 	private Set<Postagem> postagem;
 	
 	public Pessoa () {
+	}
+	
+	public Pessoa (String email, String senha) {
+		this.email = email;
+		this.senha = senha;
 	}
 
 	public Long getId() {
@@ -104,6 +111,14 @@ public class Pessoa implements Serializable {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	public Boolean getEmailConfirmado() {
