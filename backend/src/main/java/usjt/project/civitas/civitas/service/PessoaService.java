@@ -22,6 +22,7 @@ import usjt.project.civitas.civitas.validation.InvalidEntityFormatException;
 import usjt.project.civitas.civitas.validation.InvalidPasswordException;
 import usjt.project.civitas.civitas.validation.NotFoundPersonException;
 import usjt.project.civitas.civitas.validation.NullTokenException;
+import usjt.project.civitas.civitas.validation.UserLoginException;
 import usjt.project.civitas.civitas.validation.UserLogoutException;
 
 
@@ -223,6 +224,10 @@ public class PessoaService {
 		
 		
 		if(usuario != null) {
+		
+			if(usuario.getToken() != null && usuario.getToken().length() > 0) {
+				throw new UserLoginException();
+			}	
 			
 			if(usuario.getSenha().equals(pessoa.getSenha())) {
 				usuario.setToken(gerarToken(usuario.getEmail()));

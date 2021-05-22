@@ -54,7 +54,6 @@ public class FiltroControleAcesso implements Filter {
 				}
 				
 			} catch(Exception e) {
-				System.out.println("Exception");
 				sendForbidden(req, res, e.getMessage());
 			}
 		}
@@ -70,10 +69,11 @@ public class FiltroControleAcesso implements Filter {
 		outPrintWriter.flush();
 	}
 
+	//Função para válidar se a chamada é permitida sem o token.
 	private boolean byPass(HttpServletRequest req) {
-		final String[] endpoints = { "/login", "/inserirPessoa", "/logout"};
-		for (String endpoint : endpoints) {
-			if (req.getRequestURI().contains(req.getContextPath() + endpoint)) {
+		final String[] freeAcessPoints = { "/login", "/insert", "/logout"};
+		for (String freeAcessPoint : freeAcessPoints) {
+			if (req.getRequestURI().contains(req.getContextPath() + freeAcessPoint)) {
 				return true;
 			}
 		}
