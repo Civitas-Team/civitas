@@ -8,4 +8,5 @@ public class IDNullException extends Exception {
 	public IDNullException() {
 		super(message);
 	}
+	
 }
