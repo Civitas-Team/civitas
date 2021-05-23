@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -30,11 +31,11 @@ public class Postagem implements Serializable {
     private Date data;
 	@Column
 	private String corpo;
-//    @Lob
-//    @Column
-//    private byte[] imagem;
-	@Column
-	private String imagem;
+    @Lob
+    @Column
+    private byte[] imagem;
+//	@Column
+//	private String imagem;
 	@Column
 	private String localizacao;
 	@Column
@@ -67,10 +68,10 @@ public class Postagem implements Serializable {
 	public void setCorpo(String corpo) {
 		this.corpo = corpo;
 	}
-	public String getImagem() {
+	public byte[] getImagem() {
 		return imagem;
 	}
-	public void setImagem(String imagem) {
+	public void setImagem(byte[] imagem) {
 		this.imagem = imagem;
 	}
 	public Date getData() {
