@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import usjt.project.civitas.civitas.entity.Pessoa;
@@ -43,18 +45,18 @@ public class PessoaController {
 	}
 	
 	@GetMapping("/login")
-	public ResponseEntity<?> login(@RequestBody Pessoa usuario, HttpServletRequest request) {
+	public ResponseEntity<?> login(@RequestHeader String email, @RequestHeader String senha, HttpServletRequest request) {
 		try {
-			return ResponseEntity.ok(service.logar(usuario));
+			return ResponseEntity.ok(service.logar(email, senha));
 		} catch(Exception e) {
 			return ResponseEntityHelper.createResponse(e, HttpStatus.FORBIDDEN, request);
 		}
 	}
 	
 	@GetMapping("/logout")
-	public ResponseEntity<?> logout(@RequestBody Pessoa usuario, HttpServletRequest request) {
+	public ResponseEntity<?> logout(@RequestHeader Long id, @RequestHeader String token, HttpServletRequest request) {
 		try {
-			return ResponseEntity.ok(service.excluirToken(usuario.getId(), usuario.getToken()));
+			return ResponseEntity.ok(service.excluirToken(id, token));
 		} catch(Exception e) {
 			return ResponseEntityHelper.createResponse(e, HttpStatus.FORBIDDEN, request);
 		}

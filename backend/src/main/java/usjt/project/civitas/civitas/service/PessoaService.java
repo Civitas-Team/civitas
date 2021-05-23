@@ -209,11 +209,11 @@ public class PessoaService {
 	//Recebe um objeto pessoa, que deve conter o email e a senha do usuario
 	//Acha a pessoa pelo email e compara a senha
 	//Retorna o objeto pessoa do banco, já com token gerado
-	public Pessoa logar(Pessoa pessoa) throws Exception {
+	public Pessoa logar(String email, String senha) throws Exception {
 		
-		if(pessoa == null) {
-			throw new InvalidEntityFormatException();
-		}
+		Pessoa pessoa = new Pessoa();
+		pessoa.setEmail(email);
+		pessoa.setSenha(senha);
 		
 		pessoa.setSenha(criptografar(pessoa.getSenha()));
 		
@@ -224,7 +224,6 @@ public class PessoaService {
 		} else {
 			usuario = repo.findByCpf(pessoa.getCpf());
 		}
-		
 		
 		if(usuario != null) {
 		
