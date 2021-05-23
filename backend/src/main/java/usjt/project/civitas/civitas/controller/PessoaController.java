@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import usjt.project.civitas.civitas.entity.Pessoa;
+import usjt.project.civitas.civitas.helper.ResponseEntityHelper;
 import usjt.project.civitas.civitas.service.PessoaService;
 
 @RestController
@@ -42,32 +43,20 @@ public class PessoaController {
 	}
 	
 	@GetMapping("/login")
-	public Pessoa login(@RequestBody Pessoa usuario) {
-		
+	public ResponseEntity<?> login(@RequestBody Pessoa usuario, HttpServletRequest request) {
 		try {
-			
-			return service.logar(usuario);
-		
+			return ResponseEntity.ok(service.logar(usuario));
 		} catch(Exception e) {
-			//Retornar a Exceção
-			e.printStackTrace();
+			return ResponseEntityHelper.createResponse(e, HttpStatus.FORBIDDEN, request);
 		}
-		
-		//Exceção erro inesperado ao tentar realizar o login
-		return null;
 	}
 	
 	@GetMapping("/logout")
-	public boolean logout(@RequestBody Pessoa usuario) {
-		
+	public ResponseEntity<?> logout(@RequestBody Pessoa usuario, HttpServletRequest request) {
 		try {
-			
-			return service.excluirToken(usuario.getId(), usuario.getToken());
-			
+			return ResponseEntity.ok(service.excluirToken(usuario.getId(), usuario.getToken()));
 		} catch(Exception e) {
-			//Retornar a Exceção
-			e.printStackTrace();
-			return false;
+			return ResponseEntityHelper.createResponse(e, HttpStatus.FORBIDDEN, request);
 		}
 		
 	}

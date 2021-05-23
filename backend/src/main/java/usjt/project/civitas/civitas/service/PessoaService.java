@@ -10,9 +10,9 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import usjt.project.civitas.civitas.entity.Pessoa;
@@ -33,6 +33,9 @@ public class PessoaService {
 	
 	//Chave para ser usada na geração do token para o usuário
 	private String token = "This is a token, and contains a secret";
+	
+	@Value("${server.port}")
+	String serverPort;
 	
 	@Autowired
 	private PessoaRepository repo;
@@ -101,7 +104,7 @@ public class PessoaService {
         String token = Jwts.builder()
                 .setIssuedAt(new Date())
                 .setSubject(subject)
-                .setIssuer("localhost:8080")
+                .setIssuer("localhost:" + serverPort)
                 .signWith(signatureAlgorithm, signingKey)
                 .compact();
         
