@@ -4,10 +4,12 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import { AuthInterceptor } from './auth/auth-interceptor';
 
 import { PostInserirComponent } from './post/post-inserir/post-inserir.component';
 import { PostReadComponent } from './post/post-read/post-read.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './auth/login/login.component';
 
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatCardModule} from '@angular/material/card';
@@ -52,7 +54,7 @@ import { MatListModule } from '@angular/material/list';
     LayoutModule,
     MatListModule,
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
