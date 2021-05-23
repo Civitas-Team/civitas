@@ -30,6 +30,7 @@ public class PessoaController {
 	
 			if (insert == "ok") {
 				ApiMessage message = ApiMessage.buildMessage("Cadastro realizado com sucesso, verifique seu email para prosseguir!", request);
+				System.out.println(person.getToken());
 				return ResponseEntity.status(HttpStatus.ACCEPTED).body(message);
 			} else {
 				ApiMessage message = ApiMessage.buildMessage(insert + " já cadastrado!", request);

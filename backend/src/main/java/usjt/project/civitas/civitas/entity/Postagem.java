@@ -31,11 +31,11 @@ public class Postagem implements Serializable {
     private Date data;
 	@Column
 	private String corpo;
-    @Lob
-    @Column
-    private byte[] imagem;
-//	@Column
-//	private String imagem;
+//    @Lob
+//    @Column
+//    private byte[] imagem;
+	@Column
+	private String imagem;
 	@Column
 	private String localizacao;
 	@Column
@@ -68,10 +68,10 @@ public class Postagem implements Serializable {
 	public void setCorpo(String corpo) {
 		this.corpo = corpo;
 	}
-	public byte[] getImagem() {
+	public String getImagem() {
 		return imagem;
 	}
-	public void setImagem(byte[] imagem) {
+	public void setImagem(String imagem) {
 		this.imagem = imagem;
 	}
 	public Date getData() {

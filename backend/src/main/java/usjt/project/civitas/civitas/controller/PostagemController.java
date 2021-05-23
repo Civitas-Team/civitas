@@ -42,17 +42,13 @@ public class PostagemController {
 	@Autowired
 	private PostagemService postagemService;
 	
-	  @PostMapping(consumes = "multipart/form-data", produces = ConstantsHelper.APPLICATION_JSON)
+	
+	  @PostMapping(consumes = ConstantsHelper.APPLICATION_JSON, produces = ConstantsHelper.APPLICATION_JSON)
 	    public ResponseEntity<?> create(@RequestHeader Long userID, @RequestBody Postagem postagem,
-	            HttpServletRequest request, @RequestParam("imagem") MultipartFile imagem) {
+	            HttpServletRequest request) {
 	        try {
 	            Pessoa pessoa = pessoaService.getByID(userID);
 	            postagem.setPessoa(pessoa);
-	        	byte[] imagemBytesEncoded = Base64.encodeBase64(imagem.getBytes());
-	        	postagem.setImagem(imagemBytesEncoded);
-	        	
-	        	//base 64 da imagem
-	        	System.out.println(new String(imagemBytesEncoded));
 	        	
 	            return ResponseEntity.ok(postagemService.save(postagem));
 	        } catch (Exception e) {
