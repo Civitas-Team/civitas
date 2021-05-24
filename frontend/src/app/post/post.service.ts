@@ -6,19 +6,19 @@ import { environment } from '../../environments/environment'
 @Injectable({ providedIn: 'root'})
 export class PostService {
 
-  url = 'https://apicivitas.herokuapp.com'
+  url = environment.backend_host
   axios = axios
   APIkey = environment.google_api_key
   user: User
 
   async getListaTemas() {
-    return await this.axios.get(`${this.url}/tema/getAll`).then((res) => {
+    return await this.axios.get(`${this.url}/tema/getAll`, {headers: {Authorization: 'eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjE4MDY4NzksInN1YiI6Imx1aXouYmVyYmVyQG91dGxvb2suY29tIiwiaXNzIjoibG9jYWxob3N0OjI5NjI0In0.peLmFuxlb5y2_pHnJQxrQosIcJtalOg2kPc0sJiRafQ'}}).then((res) => {
        return res.data
     })
   }
 
   async getUser() {
-    return await this.axios.get(`${this.url}/pessoa/getAll`).then((res) => {
+    return await this.axios.get(`${this.url}/pessoa/getAll`, {headers: {Authorization: 'eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjE4MDY4NzksInN1YiI6Imx1aXouYmVyYmVyQG91dGxvb2suY29tIiwiaXNzIjoibG9jYWxob3N0OjI5NjI0In0.peLmFuxlb5y2_pHnJQxrQosIcJtalOg2kPc0sJiRafQ'}} ).then((res) => {
       return res.data[0]
     })
   }
@@ -29,7 +29,7 @@ export class PostService {
 
   async getPosts(page: number, userId: number) {
     return await this.axios
-      .get(`${this.url}/postagem/getPosts?itensPerPage=4&currentPage=${page}`, {headers: {userID: userId}})
+      .get(`${this.url}/postagem/getPosts?itensPerPage=4&currentPage=${page}`, {headers: {Authorization: 'eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjE4MDY4NzksInN1YiI6Imx1aXouYmVyYmVyQG91dGxvb2suY29tIiwiaXNzIjoibG9jYWxob3N0OjI5NjI0In0.peLmFuxlb5y2_pHnJQxrQosIcJtalOg2kPc0sJiRafQ'}})
       .then((res) => {
       return res.data
     })
