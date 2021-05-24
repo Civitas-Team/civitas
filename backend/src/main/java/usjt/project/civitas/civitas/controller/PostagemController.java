@@ -41,10 +41,10 @@ public class PostagemController {
 	private PostagemService postagemService;
 	
     @PostMapping(consumes = ConstantsHelper.APPLICATION_JSON, produces = ConstantsHelper.APPLICATION_JSON)
-    public ResponseEntity<?> create(@RequestHeader Long userID, @RequestBody Postagem postagem,
+    public ResponseEntity<?> create(@RequestHeader String authorization, @RequestBody Postagem postagem,
             HttpServletRequest request) {
         try {
-            Pessoa pessoa = pessoaService.getByID(userID);
+            Pessoa pessoa = pessoaService.getByToken(authorization);
             postagem.setPessoa(pessoa);
             return ResponseEntity.ok(postagemService.save(postagem));
         } catch (Exception e) {
@@ -53,12 +53,19 @@ public class PostagemController {
     }
 	
     @GetMapping("/getPosts")
-    public SearchResult getTimeline(HttpServletRequest request, 
+    public ResponseEntity<?> getTimeline(HttpServletRequest request, 
 		@RequestParam(required = false, value = "currentPage") String currentPageParam,
 		@RequestParam(required = false, value = "itensPerPage") String itensPerPageParam,
-		@RequestHeader String userID) {
+		@RequestHeader String authorization) {
+    	
+    	Pessoa pessoaLogada;
+		try {
+			pessoaLogada = pessoaService.getByToken(authorization);
+		} catch (Exception e) {
+			return ResponseEntityHelper.createResponse(e, HttpStatus.FORBIDDEN, request);
+		}
 		
-		List<Postagem> posts = postagemService.getPosts(Long.parseLong(userID));
+		List<Postagem> posts = postagemService.getPosts(pessoaLogada.getId());
         
         int totalOfResults = posts.size();
 		int itensPerPage = Integer.parseInt(itensPerPageParam);
@@ -77,30 +84,30 @@ public class PostagemController {
 		
 		SearchResult searchResult = new SearchResult(posts, totalPages, totalOfResults, currentPage);
 		
-		return searchResult;
+		return ResponseEntity.ok(searchResult);
     }
     
     @DeleteMapping(value = "/{id}", produces = ConstantsHelper.APPLICATION_JSON)
-    public ResponseEntity<?> delete(@RequestHeader String userID, @PathVariable("id") String idParam,
+    public ResponseEntity<?> delete(@RequestHeader String authorization, @PathVariable("id") String idParam,
             HttpServletRequest request) {
         try {
             EntityIDValidation.validateID(idParam);
-        } catch (NumberFormatException e) {
+            Pessoa pessoa = pessoaService.getByToken(authorization);
+            Long postId = Long.parseLong(idParam);
+            try {
+            	postagemService.delete(postId, pessoa.getId());
+            } catch (NotFoundPostException | NotFoundPersonException | InvalidTokenException e) {
+            	if (e.getClass() == InvalidTokenException.class) {
+            		return ResponseEntityHelper.createResponse(e, HttpStatus.FORBIDDEN, request);
+            	}
+            	return ResponseEntityHelper.createResponse(e, HttpStatus.NOT_FOUND, request);
+            }
+            final String MSG_DELETE_OK = "Post excluído com sucesso.";
+            ApiMessage message = ApiMessage.buildMessage(MSG_DELETE_OK, request);
+            return ResponseEntity.ok(message);
+        } catch (Exception e) {
             return ResponseEntityHelper.createResponse(e, HttpStatus.BAD_REQUEST, request);
         }
-        Long postId = Long.parseLong(idParam);
-        Long userIdParsed = Long.parseLong(userID);
-    	try {
-			postagemService.delete(postId, userIdParsed);
-		} catch (NotFoundPostException | NotFoundPersonException | InvalidTokenException e) {
-          if (e.getClass() == InvalidTokenException.class) {
-	          return ResponseEntityHelper.createResponse(e, HttpStatus.FORBIDDEN, request);
-	      }
-	      return ResponseEntityHelper.createResponse(e, HttpStatus.NOT_FOUND, request);
-		}
-        final String MSG_DELETE_OK = "Post excluído com sucesso.";
-        ApiMessage message = ApiMessage.buildMessage(MSG_DELETE_OK, request);
-        return ResponseEntity.ok(message);
     }
 }
 
