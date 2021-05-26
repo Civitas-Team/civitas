@@ -52,7 +52,7 @@ public class FiltroControleAcesso implements Filter {
             chain.doFilter(req, res);
         }
 
-	/*	if (byPass(req)) {
+		if (byPass(req)) {
 			chain.doFilter(request, response);
 		} else {
 			final String authorization = req.getHeader("authorization");
@@ -68,7 +68,7 @@ public class FiltroControleAcesso implements Filter {
 			} catch(Exception e) {
 				sendForbidden(req, res, e.getMessage());
 			}
-		}*/
+		} 
 		
 	}
 	
