@@ -8,7 +8,6 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Component;
 import org.apache.commons.lang3.StringUtils;
 
 import usjt.project.civitas.civitas.service.PessoaService;
-import usjt.project.civitas.civitas.validation.NotFoundPersonException;
 
 @Component
 @Order(1)
