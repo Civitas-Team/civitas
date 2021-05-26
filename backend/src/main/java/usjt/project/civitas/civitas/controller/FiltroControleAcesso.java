@@ -38,29 +38,27 @@ public class FiltroControleAcesso implements Filter {
 //		res.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, DELETE, OPTIONS");
 //		res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 		
-		res.setHeader("Access-Control-Allow-Origin", "*");
-		res.setHeader("Access-Control-Allow-Credentials", "true");
-		res.setHeader("Access-Control-Allow-Methods",
-                "ACL, CANCELUPLOAD, CHECKIN, CHECKOUT, COPY, DELETE, GET, HEAD, LOCK, MKCALENDAR, MKCOL, MOVE, OPTIONS, POST, PROPFIND, PROPPATCH, PUT, REPORT, SEARCH, UNCHECKOUT, UNLOCK, UPDATE, VERSION-CONTROL");
-		res.setHeader("Access-Control-Max-Age", "3600");
-		res.setHeader("Access-Control-Allow-Headers",
-                "Origin, X-Requested-With, Content-Type, Accept, Key, Authorization");
-
-        if ("OPTIONS".equalsIgnoreCase(req.getMethod())) {
-        	res.setStatus(HttpServletResponse.SC_OK);
-        } else {
-            chain.doFilter(req, res);
+		if(!res.containsHeader("Access-Control-Allow-Origin")) {
+			res.addHeader("Access-Control-Allow-Origin", "*"); 
+		} else {
+			res.setHeader("Access-Control-Allow-Origin", "*");
+		}
+		res.addHeader("Access-Control-Allow-Headers", "*");
+		res.addHeader("Access-Control-Allow-Methods", "*");
+        if (req.getMethod().equals("OPTIONS")) {
+            res.setStatus(HttpServletResponse.SC_ACCEPTED);
+            return;
         }
 
 		if (byPass(req)) {
-			chain.doFilter(request, response);
+			chain.doFilter(req, res);
 		} else {
 			final String authorization = req.getHeader("authorization");
 			try {
 				
 				if(StringUtils.isNotEmpty(authorization)) {
 					pessoaService.getByToken(authorization);
-					chain.doFilter(request, response);
+					chain.doFilter(req, res);
 				} else {
 					sendForbidden(req, res, "Authorization é nulo");
 				}
