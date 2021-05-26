@@ -34,9 +34,7 @@ public class FiltroControleAcesso implements Filter {
 		HttpServletResponse res = (HttpServletResponse) response;
 		HttpServletRequest req = (HttpServletRequest) request;
 
-		res.setHeader("Allowed-Origin-Patterns", "*");
-//		res.setHeader("Access-Control-Allow-Origin", "*");
-		res.setHeader("Access-Control-Allow-Credentials", "false");
+		res.setHeader("Access-Control-Allow-Origin", "*");
 		res.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, DELETE, OPTIONS");
 		res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
