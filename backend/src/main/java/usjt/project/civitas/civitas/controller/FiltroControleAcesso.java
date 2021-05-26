@@ -22,7 +22,6 @@ import com.google.gson.Gson;
 import usjt.project.civitas.civitas.service.PessoaService;
 
 @Component
-@CrossOrigin(origins = "*")
 @Order(1)
 public class FiltroControleAcesso implements Filter {
 
