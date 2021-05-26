@@ -18,7 +18,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import usjt.project.civitas.civitas.entity.Pessoa;
 import usjt.project.civitas.civitas.repository.PessoaRepository;
 import usjt.project.civitas.civitas.validation.IDNullException;
-import usjt.project.civitas.civitas.validation.InvalidEntityFormatException;
 import usjt.project.civitas.civitas.validation.InvalidPasswordException;
 import usjt.project.civitas.civitas.validation.NotFoundPersonException;
 import usjt.project.civitas.civitas.validation.NullTokenException;
