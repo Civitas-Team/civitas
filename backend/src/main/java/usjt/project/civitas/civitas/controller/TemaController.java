@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import usjt.project.civitas.civitas.service.TemaService;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(allowedHeaders = "*", origins = "*")
 @RequestMapping("/tema")
 public class TemaController {
 	

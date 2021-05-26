@@ -18,7 +18,7 @@ import usjt.project.civitas.civitas.helper.ResponseEntityHelper;
 import usjt.project.civitas.civitas.service.PessoaService;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(allowedHeaders = "*", origins = "*")
 @RequestMapping("/pessoa")
 public class PessoaController {
 	

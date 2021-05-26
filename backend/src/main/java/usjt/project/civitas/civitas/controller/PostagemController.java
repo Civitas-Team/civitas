@@ -34,7 +34,7 @@ import usjt.project.civitas.civitas.validation.NotFoundPersonException;
 import usjt.project.civitas.civitas.validation.NotFoundPostException;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(allowedHeaders = "*", origins = "*")
 @RequestMapping("/postagem")
 public class PostagemController {
 	
