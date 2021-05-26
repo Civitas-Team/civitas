@@ -47,9 +47,9 @@ public class PessoaController {
 	}
 	
 	@GetMapping("/login")
-	public ResponseEntity<?> login(@RequestHeader String username, @RequestHeader String password, HttpServletRequest request) {
+	public ResponseEntity<?> login(@RequestHeader String email, @RequestHeader String senha, HttpServletRequest request) {
 		try {
-			return ResponseEntity.ok(service.logar(username, password));
+			return ResponseEntity.ok(service.logar(email, senha));
 		} catch(Exception e) {
 			return ResponseEntityHelper.createResponse(e, HttpStatus.FORBIDDEN, request);
 		}
