@@ -34,11 +34,25 @@ public class FiltroControleAcesso implements Filter {
 		HttpServletResponse res = (HttpServletResponse) response;
 		HttpServletRequest req = (HttpServletRequest) request;
 
+//		res.setHeader("Access-Control-Allow-Origin", "*");
+//		res.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, DELETE, OPTIONS");
+//		res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+		
 		res.setHeader("Access-Control-Allow-Origin", "*");
-		res.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, DELETE, OPTIONS");
-		res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+		res.setHeader("Access-Control-Allow-Credentials", "true");
+		res.setHeader("Access-Control-Allow-Methods",
+                "ACL, CANCELUPLOAD, CHECKIN, CHECKOUT, COPY, DELETE, GET, HEAD, LOCK, MKCALENDAR, MKCOL, MOVE, OPTIONS, POST, PROPFIND, PROPPATCH, PUT, REPORT, SEARCH, UNCHECKOUT, UNLOCK, UPDATE, VERSION-CONTROL");
+		res.setHeader("Access-Control-Max-Age", "3600");
+		res.setHeader("Access-Control-Allow-Headers",
+                "Origin, X-Requested-With, Content-Type, Accept, Key, Authorization");
 
-		if (byPass(req)) {
+        if ("OPTIONS".equalsIgnoreCase(req.getMethod())) {
+        	res.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            chain.doFilter(req, res);
+        }
+
+	/*	if (byPass(req)) {
 			chain.doFilter(request, response);
 		} else {
 			final String authorization = req.getHeader("authorization");
@@ -54,7 +68,7 @@ public class FiltroControleAcesso implements Filter {
 			} catch(Exception e) {
 				sendForbidden(req, res, e.getMessage());
 			}
-		}
+		}*/
 		
 	}
 	
