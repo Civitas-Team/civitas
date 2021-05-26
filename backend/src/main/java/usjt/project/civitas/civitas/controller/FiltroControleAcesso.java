@@ -11,15 +11,17 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+import com.google.gson.Gson;
 
 import usjt.project.civitas.civitas.service.PessoaService;
 
+@CrossOrigin
 @Component
 @Order(1)
 public class FiltroControleAcesso implements Filter {
