@@ -304,7 +304,7 @@ public class PessoaService {
 	
 	//Função responsável pelo reenvio do e-mail
 	//Recebe o id do usuário a receber o e-mail
-	public Pessoa reenviarEmail(Long id, String token) throws Exception {
+	public Pessoa reenviarEmail(Long id) throws Exception {
 		try {
 			
 			if(id == null) {
@@ -315,16 +315,10 @@ public class PessoaService {
 			
 			if(pessoa != null) {
 				Pessoa usuario = pessoa.get();
-			
-				if(compareToken(token, id)) {
 				
-					EnviarEmailConfirmacao(usuario);
-					
-					return usuario;
+				EnviarEmailConfirmacao(usuario);
 				
-				} else {
-					throw new InvalidTokenException();
-				}
+				return usuario;
 				
 			} else {
 				throw new NotFoundPersonException();

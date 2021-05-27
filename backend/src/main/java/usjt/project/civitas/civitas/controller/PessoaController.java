@@ -63,9 +63,9 @@ public class PessoaController {
 	}
 	
 	@PostMapping("/reenviarEmail")
-	public ResponseEntity<?> reenviarEmail(@RequestHeader Long id, @RequestHeader String token, HttpServletRequest request) {
+	public ResponseEntity<?> reenviarEmail(@RequestHeader Long id, HttpServletRequest request) {
 		try {
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.reenviarEmail(id, token));
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.reenviarEmail(id));
 		} catch(Exception e) {
 			return ResponseEntityHelper.createResponse(e, HttpStatus.FORBIDDEN, request);
 		}
