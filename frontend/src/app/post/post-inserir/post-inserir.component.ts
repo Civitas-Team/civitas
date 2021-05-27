@@ -4,6 +4,7 @@ import { User } from '../user.model'
 import { Tema } from '../tema.model'
 import { PostService } from '../post.service'
 import { mimeTypeValidator } from './mime-type.validator'
+
 @Component({
   selector: 'app-post-inserir',
   templateUrl: './post-inserir.component.html',
@@ -14,30 +15,6 @@ export class PostInserirComponent implements OnInit {
 
   form: FormGroup;
   isCarregando: boolean = false;
-
-  // Usar para desenvolvimento
-  // user = {
-  //   nome: "Nome do usuário",
-  //   localizacao: "Localizacao do usuário",
-  //   imagem: "../../assets/profile.png"
-  // }
-  // temas = [
-  //   {
-  //     id: 1,
-  //     nome: "Covid-19"
-  //   },
-  //   {
-  //     id: 2,
-
-  //     nome: "Doação"
-  //   },
-  //   {
-  //     id: 3,
-  //     nome: "Hospital"
-  //   },
-  // ]
-
-  // Usar para produção
   user: User
   temas: Tema[] = []
   previewImagem: string
@@ -48,7 +25,6 @@ export class PostInserirComponent implements OnInit {
 
   async ngOnInit(){
     this.isCarregando = true
-    // **Usar para produção**
     this.temas = await this.postService.getListaTemas();
     this.user = await this.postService.getUser();
     const localizacao = await this.postService.converteLocalizacaoTexto(this.user.localizacao)
@@ -69,8 +45,6 @@ export class PostInserirComponent implements OnInit {
     })
     this.isCarregando = false
   }
-
-
 
   onImagemSelecionada(event: Event) {
     const arquivo = (event.target as HTMLInputElement).files[0]

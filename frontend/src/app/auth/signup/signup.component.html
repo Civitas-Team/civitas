@@ -1,4 +1,79 @@
-<mat-card>
+<div class="container">
+  <mat-spinner *ngIf='isCarregando'></mat-spinner>
+  <form (submit)= "onSignup(SignupForm)" #SignupForm="ngForm">
+      <div class="row m-5 justify-content-center">
+          <div class="col-12">
+          <h1 class="text-center">Crie sua conta no Civitas</h1>
+          </div>
+          <div class="col-10">
+              <mat-card>
+                  <div>
+                      <mat-form-field appearance="outline" class="d-block">
+                          <mat-label>Nome</mat-label>
+                          <input
+                            type="text"
+                            matInput
+                            placeholder="Digite seu nome..."
+                            required name="nome"
+                            #nomeInput="ngModel"
+                            ngModel>
+                          <mat-icon matSuffix>person</mat-icon>
+                          <mat-error *ngIf="nomeInput.invalid">Nome inválido</mat-error>
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline" class="d-block">
+                          <mat-label>CPF</mat-label>
+                          <input
+                            matInput
+                            type="number"
+                            required name="cpf"
+                            #cpfInput="ngModel"
+                            ngModel>
+                          <mat-icon matSuffix>badge</mat-icon>
+                        <mat-error *ngIf="cpfInput.invalid">CPF inválido</mat-error>
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline" class="d-block">
+                        <mat-label>Email</mat-label>
+                        <input
+                          matInput
+                          type="email"
+                          required
+                          email
+                          name="email"
+                          #emailInput="ngModel"
+                          ngModel>
+                        <mat-icon matSuffix>mail</mat-icon>
+                        <mat-error *ngIf="emailInput.invalid">Email inválido</mat-error>
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline" class="d-block">
+                        <mat-label>Senha</mat-label>
+                        <input
+                          matInput type="password"
+                          required
+                          name="senha"
+                          #senhaInput="ngModel"
+                          ngModel>
+                          <mat-icon matSuffix>lock</mat-icon>
+                          <mat-error *ngIf="senhaInput.invalid">Senha inválida</mat-error>
+                      </mat-form-field>
+                  </div>
+                  <div style="text-align: right">
+                      <button mat-raised-button color="primary">Cadastrar</button>
+                  </div>
+              </mat-card>
+
+          </div>
+      </div>
+  </form>
+  <div style="text-align: center">
+    <button routerLink="" mat-button>Já possui conta ? Faça login</button>
+</div>
+</div>
+
+
+<!-- <div>
     <mat-spinner *ngIf="estaCarregando"></mat-spinner>
     <form *ngIf="!estaCarregando" (submit)="onSignup(signupForm)" #signupForm="ngForm">
       <mat-form-field>
@@ -11,4 +86,4 @@
       </mat-form-field>
       <button mat-raised-button color="accent" type="submit">Cadastrar</button>
     </form>
-  </mat-card>
+</div> -->

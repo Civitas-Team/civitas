@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 import { UsuarioService } from '../usuario.service';
 
 @Component({
@@ -7,17 +8,23 @@ import { UsuarioService } from '../usuario.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
+
 export class LoginComponent implements OnInit {
+
   isCarregando: boolean = false;
+
   constructor(private usuarioService: UsuarioService) {}
 
   ngOnInit(): void {}
 
 
-  onLogin (form: NgForm){
-    console.log('passou');
-      if (form.invalid) { 
-      return;}
-    this.usuarioService.login(form.value.email, form.value.password);
+  async onLogin (form: NgForm){
+    if (form.invalid) return;
+
+    const resposta = await this.usuarioService.login(form.value.email, form.value.senha);
+
+    if (resposta != null) {
+      console.log(resposta);
     }
+  }
 }

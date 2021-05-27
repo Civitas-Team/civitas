@@ -1,21 +1,22 @@
 <div class="container">
     <mat-spinner *ngIf='isCarregando'></mat-spinner>
     <form (submit)= "onLogin(LoginForm)" #LoginForm = "ngForm">
-        <div class="row m-5">
-            <h1 class="text-center">Entrar no Civitas</h1>
-            <div class="col-2"></div>
-            <div class="col-8">
+        <div class="row m-5 justify-content-center">
+            <div class="col-12">
+              <h1 class="text-center">Entrar no Civitas</h1>
+            </div>
+            <div class="col-10">
                 <mat-card>
                     <div>
                         <mat-form-field appearance="outline" class="d-block">
                             <mat-label>Email</mat-label>
-                            <input matInput placeholder="Ex:nome@email.com" required="true" type="email" name="nome">
+                            <input matInput placeholder="Ex:nome@email.com" required type="email" name="email" ngModel>
                             <mat-icon matSuffix>account_circle</mat-icon>
                         </mat-form-field>
-                
+
                         <mat-form-field appearance="outline" class="d-block">
                             <mat-label>Senha</mat-label>
-                            <input matInput type="password" required="true" name="senha">
+                            <input matInput type="password" required name="senha" ngModel>
                             <mat-icon matSuffix>lock</mat-icon>
                         </mat-form-field>
                     </div>
@@ -27,8 +28,6 @@
         </div>
     </form>
     <div style="text-align: center">
-        <a href="" class="d-block">Não possui conta ? Cadastra-se</a>
-        <a href="">Esqueci minha senha</a>
+        <button routerLink="signup" mat-button>Não possui conta ? Cadastra-se</button>
     </div>
 </div>
-  

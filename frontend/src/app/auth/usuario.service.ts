@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthData } from './auth-data.model';
 import { Subject } from 'rxjs'
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import axios, { AxiosTransformer } from 'axios';
+import axios from 'axios';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,7 +15,7 @@ export class UsuarioService {
   /*private tokenTimer: NodeJS.Timer;*/
   private authStatusSubject = new Subject <boolean>();
   private idUsuario: string;
-  private axios = axios;
+  axios = axios;
 
   public isAutenticado(): boolean{
     return this.autenticado;
@@ -46,80 +46,74 @@ export class UsuarioService {
     this.router.navigate(['/']);
   }
 
-  criarUsuario(email: string, senha: string){
-    const authData: AuthData = {
-      email: email,
-      senha: senha
+  criarUsuario({nome, cpf, email, senha}){
+    const dadosUsuario = {
+      nome,
+      cpf,
+      email,
+      senha,
     }
-    this.httpClient.post(environment.backend_host+"/pessoa/insert", authData).
-      subscribe({
-        //vamos para página principal quando o usuário é criado com sucesso
-        next: () => this.router.navigate(['/']),
-        //notificamos todos os componentes que não há usuário autenticado
-        error: () => this.authStatusSubject.next(false)
-      });
+    this.axios.post(environment.backend_host+"/pessoa/insert", dadosUsuario)
+      .then(() => {
+        this.router.navigate(['/']);
+      }).catch(() => {return 'erro'})
   }
 
   public getIdUsuario(){
     return this.idUsuario;
   }
 
-  login (email: string, senha: string){
+  async login (email: string, senha: string){
     const authData: AuthData = {
-      email: email,
-      senha: senha
+      email,
+      senha,
     }
-    this.axios.get<{ token: string, expiresIn: number, idUsuario:string}>
-    (environment.backend_host+"/pessoa/login", {headers: {email: email,
-      senha: senha}}).
-      then(resposta => {
-         const dados = resposta.data;
-        this.token = dados.token;
-        if (this.token){
-          /*const tempoValidadeToken = resposta.expiresIn;
-          this.tokenTimer = setTimeout(() => {
-            this.logout();
-          }, tempoValidadeToken * 1000);
-          console.log(resposta);*/
-          this.autenticado = true;
-          this.idUsuario = dados.idUsuario;
-          this.authStatusSubject.next(true);
-          this.salvarDadosDeAutenticacao(resposta);
-          this.router.navigate(['/']);
-        }
-      })
+    try{
+      return this.axios.post(environment.backend_host+"/pessoa/login", authData)
+        .then(resposta => {
+          console.log(JSON.stringify(resposta.data, null, 2));
+          const dadosUsuario = resposta.data;
+          if (this.token){
+            /*const tempoValidadeToken = resposta.expiresIn;
+            this.tokenTimer = setTimeout(() => {
+              this.logout();
+            }, tempoValidadeToken * 1000);
+            console.log(resposta);*/
+            this.autenticado = true;
+            this.authStatusSubject.next(true);
+            this.salvarDadosDeAutenticacao(dadosUsuario);
+            this.router.navigate(['/']);
+          }
+        }).catch((erro) => {
+          return 'erro';
+        })
+    } catch (erro) {
+    }
   }
 
   private salvarDadosDeAutenticacao (resposta){
-    localStorage.setItem ('usuario',resposta)
+    localStorage.setItem('token', resposta.token)
+    localStorage.setItem('usuario',resposta)
   }
 
   private removerDadosDeAutenticacao (){
     localStorage.removeItem ('token');
-    localStorage.removeItem ('idUsuario');
+    localStorage.removeItem ('usuario');
   }
 
-  /*public autenticarAutomaticamente (): void{
+  public autenticarAutomaticamente (): void{
     const dadosAutenticacao = this.obterDadosDeAutenticacao();
     if (dadosAutenticacao){
-      const agora = new Date();
-      const diferenca = dadosAutenticacao.validade.getTime() - agora.getTime();
-      if (diferenca > 0){
-        this.token = dadosAutenticacao.token;
-        this.autenticado = true;
-        this.idUsuario = dadosAutenticacao.idUsuario;
-        this.tokenTimer = setTimeout(() => {
-          this.logout();
-        }, diferenca);
-        this.authStatusSubject.next(true);
-      }
+      this.token = dadosAutenticacao.token;
+      this.autenticado = true;
+      this.idUsuario = dadosAutenticacao.idUsuario;
+      this.authStatusSubject.next(true);
     }
-  }*/
+  }
 
   private obterDadosDeAutenticacao(){
     const token = localStorage.getItem ('token');
-    
-    const idUsuario = localStorage.getItem ('idUsuario');
+    const idUsuario = localStorage.getItem ('usuario.id');
     if (token) {
       return {token: token, idUsuario: idUsuario}
     }
