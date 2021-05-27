@@ -31,9 +31,7 @@ public class Postagem implements Serializable {
     private Date data;
 	@Column
 	private String corpo;
-//    @Lob
-//    @Column
-//    private byte[] imagem;
+
 	@Column
 	private String imagem;
 	@Column

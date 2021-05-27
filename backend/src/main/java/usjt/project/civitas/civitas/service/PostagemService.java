@@ -37,8 +37,7 @@ public class PostagemService {
         }
         postagem.setData(new Date());
         postagem.setTema(temaService.getById(postagem.getTemaId()));
-      //  postagem.setImagem(postagem.getImagem());
-
+        
         return postagemRepo.save(postagem);
     }
     

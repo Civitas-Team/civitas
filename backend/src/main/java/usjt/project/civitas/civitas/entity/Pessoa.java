@@ -30,9 +30,7 @@ public class Pessoa implements Serializable {
 	private String email;
 	@Column
 	private String biografia;
-//    @Lob
-//    @Column
-//    private byte[] imagem;
+
 	@Column
 	private String imagem;
 	@Column
