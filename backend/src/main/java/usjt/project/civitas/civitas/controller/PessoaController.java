@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import usjt.project.civitas.civitas.entity.Imagem;
+import usjt.project.civitas.civitas.entity.Login;
 import usjt.project.civitas.civitas.entity.Pessoa;
 import usjt.project.civitas.civitas.helper.ResponseEntityHelper;
 import usjt.project.civitas.civitas.service.PessoaService;
@@ -49,10 +50,10 @@ public class PessoaController {
 		}
 	}
 	
-	@GetMapping("/login")
-	public ResponseEntity<?> login(@RequestHeader String email, @RequestHeader String senha, HttpServletRequest request) {
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody Login login, HttpServletRequest request) {
 		try {
-			return ResponseEntity.ok(service.logar(email, senha));
+			return ResponseEntity.ok(service.logar(login.getEmail(), login.getSenha()));
 		} catch(Exception e) {
 			return ResponseEntityHelper.createResponse(e, HttpStatus.FORBIDDEN, request);
 		}
