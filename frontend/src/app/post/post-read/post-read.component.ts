@@ -1,5 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import {PostService} from '../post.service'
+import {AgmCoreModule} from '@agm/core'; 
+
+@ NgModule ( {
+  declarações : [
+    AppComponent
+  ] ,
+  importações : [
+    BrowserModule ,
+    AppRoutingModule ,
+    AgmCoreModule . forRoot ( {
+      apiKey : 'AIzaSyC8RCaBJ7i4dja5-Vvbpn09giFsOeQdLlQ'
+    } )
+  ] 
+
 @Component({
   selector: 'app-post-read',
   templateUrl: './post-read.component.html',

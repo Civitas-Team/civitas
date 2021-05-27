@@ -69,8 +69,6 @@ export class PostInserirComponent implements OnInit {
     this.isCarregando = false
   }
 
-
-
   onImagemSelecionada(event: Event) {
     const arquivo = (event.target as HTMLInputElement).files[0]
     console.log(arquivo)
@@ -78,6 +76,8 @@ export class PostInserirComponent implements OnInit {
     this.form.get('imagem').updateValueAndValidity()
     const reader = new FileReader()
     reader.onload = () => {
+      var emBase64 = btoa(previewImagem)
+      console.log(emBase64)
       this.previewImagem = reader.result as string
     }
     reader.readAsDataURL(arquivo)
