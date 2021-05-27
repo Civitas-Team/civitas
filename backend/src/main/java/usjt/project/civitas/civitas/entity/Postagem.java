@@ -2,6 +2,7 @@ package usjt.project.civitas.civitas.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,13 +11,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name= "postagem")
@@ -48,6 +50,10 @@ public class Postagem implements Serializable {
 	@Transient
 	private String distanciaDaPessoaLogada;
 	
+    @OneToMany(mappedBy = "idPostagem")
+    @JsonIgnoreProperties("idPostagem")
+    private Set<ConfirmacaoDeInfo> confirmacaoDeInfo;
+    
 	public Long getId() {
 		return id;
 	}
@@ -113,6 +119,13 @@ public class Postagem implements Serializable {
 	}
 	public void setDistanciaDaPessoaLogada(String distanciaDaPessoaLogada) {
 		this.distanciaDaPessoaLogada = distanciaDaPessoaLogada;
+	}
+	
+	public Set<ConfirmacaoDeInfo> getConfirmacaoDeInfo() {
+		return confirmacaoDeInfo;
+	}
+	public void setConfirmacaoDeInfo(Set<ConfirmacaoDeInfo> confirmacaoDeInfo) {
+		this.confirmacaoDeInfo = confirmacaoDeInfo;
 	}
 	
 	@Override

@@ -2,10 +2,9 @@ package usjt.project.civitas.civitas.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-
-
 public class Imagem implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	private String imagemBase64;
 
 	public String getImagemBase64() {

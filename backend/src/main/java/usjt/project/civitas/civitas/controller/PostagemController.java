@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.gson.JsonObject;
-
 import usjt.project.civitas.civitas.entity.Imagem;
 import usjt.project.civitas.civitas.entity.Pessoa;
 import usjt.project.civitas.civitas.entity.Postagem;
@@ -29,6 +27,7 @@ import usjt.project.civitas.civitas.entity.SearchResult;
 import usjt.project.civitas.civitas.helper.ConstantsHelper;
 import usjt.project.civitas.civitas.helper.PaginationHelper;
 import usjt.project.civitas.civitas.helper.ResponseEntityHelper;
+import usjt.project.civitas.civitas.service.ConfirmacaoDeInfoService;
 import usjt.project.civitas.civitas.service.PessoaService;
 import usjt.project.civitas.civitas.service.PostagemService;
 import usjt.project.civitas.civitas.validation.EntityIDValidation;
@@ -45,6 +44,9 @@ public class PostagemController {
 
 	@Autowired
 	private PostagemService postagemService;
+	
+	@Autowired
+	private ConfirmacaoDeInfoService confirmacaoDeInfoService;
 
 	@PostMapping(consumes = ConstantsHelper.APPLICATION_JSON, produces = ConstantsHelper.APPLICATION_JSON)
 	public ResponseEntity<?> create(@RequestHeader Long userID, @RequestBody Postagem postagem,
@@ -64,7 +66,6 @@ public class PostagemController {
 			@RequestParam(required = false, value = "currentPage") String currentPageParam,
 			@RequestParam(required = false, value = "itensPerPage") String itensPerPageParam,
 			@RequestHeader String authorization) {
-
 		Pessoa pessoaLogada;
 		try {
 			pessoaLogada = pessoaService.getByToken(authorization);
@@ -131,5 +132,26 @@ public class PostagemController {
 		} catch (Exception e) {
 			return ResponseEntityHelper.createResponse(e, HttpStatus.BAD_REQUEST, request);
 		}
+	}
+	
+	@PostMapping("confirmarInfo/{id}")
+	public ResponseEntity<?> postLike(@PathVariable("id") Long id, @RequestHeader String authorization, HttpServletRequest request) {
+		
+		Postagem postagem = new Postagem();
+		postagem.setId(id);
+		try {
+		Pessoa pessoa = pessoaService.getByToken(authorization);
+			if(confirmacaoDeInfoService.obterConfirmacaoDeInfo(postagem, pessoa)) {
+				try {
+					confirmacaoDeInfoService.incluirConfirmacaoDeInfo(pessoa, postagem);;
+					return ResponseEntity.ok("Confirmação incluída com sucesso");
+				} catch (NotFoundPostException e) {
+					return ResponseEntityHelper.createResponse(e, HttpStatus.NOT_FOUND, request);
+				}
+			}
+		 } catch (Exception e) {
+            return ResponseEntityHelper.createResponse(e, HttpStatus.BAD_REQUEST, request);
+		 }
+		return ResponseEntity.ok("Confirmação retirada com sucesso");
 	}
 }
