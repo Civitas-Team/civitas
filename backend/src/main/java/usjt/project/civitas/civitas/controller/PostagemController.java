@@ -49,10 +49,10 @@ public class PostagemController {
 	private ConfirmacaoDeInfoService confirmacaoDeInfoService;
 
 	@PostMapping(consumes = ConstantsHelper.APPLICATION_JSON, produces = ConstantsHelper.APPLICATION_JSON)
-	public ResponseEntity<?> create(@RequestHeader Long userID, @RequestBody Postagem postagem,
+	public ResponseEntity<?> create(@RequestHeader String authorization, @RequestBody Postagem postagem,
 			HttpServletRequest request) {
 		try {
-			Pessoa pessoa = pessoaService.getByID(userID);
+			Pessoa pessoa = pessoaService.getByToken(authorization);
 			postagem.setPessoa(pessoa);
 
 			return ResponseEntity.ok(postagemService.save(postagem));
