@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     const resposta = await this.usuarioService.login(form.value.email, form.value.senha);
 
     if (resposta != null) {
-      console.log(resposta);
+      console.log('aaaaa', resposta);
     }
   }
 }

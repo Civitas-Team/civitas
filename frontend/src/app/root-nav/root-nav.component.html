@@ -2,12 +2,12 @@
   <mat-sidenav #drawer class="sidenav" fixedInViewport
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async) === false"
-      *ngIf="autenticado">
+      [opened]="(autenticado && isHandset$ | async) === false"
+      >
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
       <div mat-menu-item>
-        <a routerLink="pagPrincipal"><mat-icon >home</mat-icon>Home</a>
+        <a routerLink=""><mat-icon >home</mat-icon>Home</a>
       </div>
       <div mat-menu-item>
         <a routerLink="novoPost"><mat-icon >bookmark_add</mat-icon>Nova Publicação</a>
@@ -40,6 +40,7 @@
           mat-raised-button
           color="primary"
           (click)="onLogout()"
+          *ngIf="autenticado"
           >
           Logout
         </button>

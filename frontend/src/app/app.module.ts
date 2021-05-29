@@ -29,6 +29,7 @@ import { RootNavComponent } from './root-nav/root-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AtualizaLocalizacaoComponent } from './atualiza-localizacao/atualiza-localizacao.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     PostReadComponent,
     RootNavComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    AtualizaLocalizacaoComponent
   ],
   imports: [
     BrowserModule,

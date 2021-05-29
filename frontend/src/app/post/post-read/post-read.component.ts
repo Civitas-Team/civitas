@@ -12,7 +12,6 @@ export class PostReadComponent implements OnInit {
   apiKey: string = environment.google_api_key
   infiniteScrollDistance: number = 1
   infiniteScrollThrottle: number = 50
-  postService = new PostService()
   isCarregando: boolean = false;
   isPrimeiroLoading: boolean = true
   userId: number = 4
@@ -23,18 +22,19 @@ export class PostReadComponent implements OnInit {
   posts: Post[]
   localizacao: string = "-23.532466,-46.529625"
   img = "../../assets/imagem.jpg"
+  semPosts = true;
   // post = {
   //   localizacao: 'localizacao'
   // }
 
-  constructor() { }
+  constructor(private postService: PostService) {}
 
   async ngOnInit() {
     this.isCarregando = true
     const respostaPosts = await this.postService.getPosts(1, this.userId)
     this.totalPaginas = respostaPosts.totalPages
     this.posts = respostaPosts.data
-    console.log(this.posts)
+    this.semPosts = (this.posts.length > 0) ? false : true;
     this.isPrimeiroLoading = false
     this.isCarregando = false
   }

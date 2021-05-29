@@ -11,12 +11,16 @@ import { UsuarioService } from '../auth/usuario.service';
 })
 export class RootNavComponent implements OnInit, OnDestroy {
 
+  private authObserver: Subscription;
+  public autenticado: boolean = false;
+
   constructor(
     private breakpointObserver: BreakpointObserver,
     private usuarioService: UsuarioService,
     ) {}
 
     ngOnInit(): void {
+      this.autenticado = this.usuarioService.isAutenticado();
       this.authObserver =
         this.usuarioService.getStatusSubject()
           .subscribe((autenticado) => {
@@ -28,8 +32,6 @@ export class RootNavComponent implements OnInit, OnDestroy {
       this.authObserver.unsubscribe();
     }
 
-  private authObserver: Subscription;
-  public autenticado: boolean = false;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(

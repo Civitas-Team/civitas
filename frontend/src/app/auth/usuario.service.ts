@@ -17,6 +17,11 @@ export class UsuarioService {
   private idUsuario: string;
   axios = axios;
 
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router
+  ) {}
+
   public isAutenticado(): boolean{
     return this.autenticado;
   }
@@ -25,25 +30,21 @@ export class UsuarioService {
     return this.authStatusSubject.asObservable();
   }
 
-  constructor(
-    private httpClient: HttpClient,
-    private router: Router
-  ) {
-
-  }
 
   public getToken (): string{
     return this.token;
   }
 
-  public logout(): void{
-    this.token = null;
-    this.authStatusSubject.next(false);
-    this.autenticado = false;
-    /*clearTimeout(this.tokenTimer);*/
-    this.idUsuario = null;
-    this.removerDadosDeAutenticacao();
-    this.router.navigate(['/']);
+  public logout() {
+    this.httpClient.get(environment.backend_host+"/pessoa/logout", {headers: {token: this.token, id: this.idUsuario}})
+      .subscribe(() => {
+        this.token = null;
+        this.authStatusSubject.next(false);
+        this.autenticado = false;
+        this.idUsuario = null;
+        this.removerDadosDeAutenticacao();
+        this.router.navigate(['login']);
+      })
   }
 
   criarUsuario({nome, cpf, email, senha}){
@@ -53,10 +54,15 @@ export class UsuarioService {
       email,
       senha,
     }
-    this.axios.post(environment.backend_host+"/pessoa/insert", dadosUsuario)
-      .then(() => {
-        this.router.navigate(['/']);
-      }).catch(() => {return 'erro'})
+    this.httpClient.post(environment.backend_host+"/pessoa/insert", dadosUsuario)
+      .subscribe({
+        next: () => {
+          this.router.navigate(['login']);
+        },
+        error: () => {
+          this.authStatusSubject.next(false);
+        }
+      });
   }
 
   public getIdUsuario(){
@@ -69,11 +75,11 @@ export class UsuarioService {
       senha,
     }
     try{
-      return this.axios.post(environment.backend_host+"/pessoa/login", authData)
-        .then(resposta => {
-          console.log(JSON.stringify(resposta.data, null, 2));
-          const dadosUsuario = resposta.data;
-          if (this.token){
+      this.httpClient.post<{token: string}>
+        (environment.backend_host+"/pessoa/login", authData)
+        .subscribe((resposta) => {
+          const dadosUsuario = resposta
+          if (dadosUsuario.token){
             /*const tempoValidadeToken = resposta.expiresIn;
             this.tokenTimer = setTimeout(() => {
               this.logout();
@@ -84,20 +90,20 @@ export class UsuarioService {
             this.salvarDadosDeAutenticacao(dadosUsuario);
             this.router.navigate(['/']);
           }
-        }).catch((erro) => {
-          return 'erro';
-        })
+        });
     } catch (erro) {
     }
   }
 
   private salvarDadosDeAutenticacao (resposta){
     localStorage.setItem('token', resposta.token)
-    localStorage.setItem('usuario',resposta)
+    localStorage.setItem('idUsuario', resposta.id)
+    localStorage.setItem('usuario', JSON.stringify(resposta))
   }
 
   private removerDadosDeAutenticacao (){
     localStorage.removeItem ('token');
+    localStorage.removeItem ('idUsuario');
     localStorage.removeItem ('usuario');
   }
 
@@ -111,11 +117,15 @@ export class UsuarioService {
     }
   }
 
+  public getUsuarioData() {
+    return JSON.parse(localStorage.getItem('usuario'));
+  }
+
   private obterDadosDeAutenticacao(){
     const token = localStorage.getItem ('token');
-    const idUsuario = localStorage.getItem ('usuario.id');
+    const idUsuario = localStorage.getItem ('idUsuario');
     if (token) {
-      return {token: token, idUsuario: idUsuario}
+      return {token, idUsuario}
     }
     return null;
   }
