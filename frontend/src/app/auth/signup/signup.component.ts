@@ -10,21 +10,27 @@ import { UsuarioService } from '../usuario.service';
 })
 export class SignupComponent implements OnInit, OnDestroy {
 
-  estaCarregando: boolean = false;
+  isCarregando: boolean = false;
   private authObserver: Subscription;
 
   constructor(private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
-    this.authObserver = this.usuarioService.getStatusSubject().
-      subscribe(
-        authStatus => this.estaCarregando = false
+    this.authObserver = this.usuarioService.getStatusSubject()
+      .subscribe(
+        authStatus => this.isCarregando = false
       )
   }
 
   onSignup(form: NgForm): void {
     if (form.invalid) return;
-    this.usuarioService.criarUsuario(form.value.email, form.value.password);
+    const dadosUsuario = {
+      nome: form.value.nome,
+      cpf: form.value.cpf,
+      email: form.value.email,
+      senha: form.value.senha,
+    }
+    this.usuarioService.criarUsuario(dadosUsuario);
   }
 
   ngOnDestroy(): void {

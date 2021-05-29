@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthData } from './auth-data.model';
 import { Subject } from 'rxjs'
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import axios, { AxiosTransformer } from 'axios';
+import axios from 'axios';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,7 +15,12 @@ export class UsuarioService {
   /*private tokenTimer: NodeJS.Timer;*/
   private authStatusSubject = new Subject <boolean>();
   private idUsuario: string;
-  private axios = axios;
+  axios = axios;
+
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router
+  ) {}
 
   public isAutenticado(): boolean{
     return this.autenticado;
@@ -25,38 +30,38 @@ export class UsuarioService {
     return this.authStatusSubject.asObservable();
   }
 
-  constructor(
-    private httpClient: HttpClient,
-    private router: Router
-  ) {
-
-  }
 
   public getToken (): string{
     return this.token;
   }
 
-  public logout(): void{
-    this.token = null;
-    this.authStatusSubject.next(false);
-    this.autenticado = false;
-    /*clearTimeout(this.tokenTimer);*/
-    this.idUsuario = null;
-    this.removerDadosDeAutenticacao();
-    this.router.navigate(['/']);
+  public logout() {
+    this.httpClient.get(environment.backend_host+"/pessoa/logout", {headers: {token: this.token, id: this.idUsuario}})
+      .subscribe(() => {
+        this.token = null;
+        this.authStatusSubject.next(false);
+        this.autenticado = false;
+        this.idUsuario = null;
+        this.removerDadosDeAutenticacao();
+        this.router.navigate(['login']);
+      })
   }
 
-  criarUsuario(email: string, senha: string){
-    const authData: AuthData = {
-      email: email,
-      senha: senha
+  criarUsuario({nome, cpf, email, senha}){
+    const dadosUsuario = {
+      nome,
+      cpf,
+      email,
+      senha,
     }
-    this.httpClient.post(environment.backend_host+"/pessoa/insert", authData).
-      subscribe({
-        //vamos para página principal quando o usuário é criado com sucesso
-        next: () => this.router.navigate(['/']),
-        //notificamos todos os componentes que não há usuário autenticado
-        error: () => this.authStatusSubject.next(false)
+    this.httpClient.post(environment.backend_host+"/pessoa/insert", dadosUsuario)
+      .subscribe({
+        next: () => {
+          this.router.navigate(['login']);
+        },
+        error: () => {
+          this.authStatusSubject.next(false);
+        }
       });
   }
 
@@ -64,64 +69,63 @@ export class UsuarioService {
     return this.idUsuario;
   }
 
-  login (email: string, senha: string){
+  async login (email: string, senha: string){
     const authData: AuthData = {
-      email: email,
-      senha: senha
+      email,
+      senha,
     }
-    this.axios.get<{ token: string, expiresIn: number, idUsuario:string}>
-    (environment.backend_host+"/pessoa/login", {headers: {email: email,
-      senha: senha}}).
-      then(resposta => {
-         const dados = resposta.data;
-        this.token = dados.token;
-        if (this.token){
-          /*const tempoValidadeToken = resposta.expiresIn;
-          this.tokenTimer = setTimeout(() => {
-            this.logout();
-          }, tempoValidadeToken * 1000);
-          console.log(resposta);*/
-          this.autenticado = true;
-          this.idUsuario = dados.idUsuario;
-          this.authStatusSubject.next(true);
-          this.salvarDadosDeAutenticacao(resposta);
-          this.router.navigate(['/']);
-        }
-      })
+    try{
+      this.httpClient.post<{token: string}>
+        (environment.backend_host+"/pessoa/login", authData)
+        .subscribe((resposta) => {
+          const dadosUsuario = resposta
+          if (dadosUsuario.token){
+            /*const tempoValidadeToken = resposta.expiresIn;
+            this.tokenTimer = setTimeout(() => {
+              this.logout();
+            }, tempoValidadeToken * 1000);
+            console.log(resposta);*/
+            this.autenticado = true;
+            this.authStatusSubject.next(true);
+            this.salvarDadosDeAutenticacao(dadosUsuario);
+            this.router.navigate(['/']);
+          }
+        });
+    } catch (erro) {
+    }
   }
 
   private salvarDadosDeAutenticacao (resposta){
-    localStorage.setItem ('usuario',resposta)
+    localStorage.setItem('token', resposta.token)
+    localStorage.setItem('idUsuario', resposta.id)
+    localStorage.setItem('usuario', JSON.stringify(resposta))
   }
 
   private removerDadosDeAutenticacao (){
     localStorage.removeItem ('token');
     localStorage.removeItem ('idUsuario');
+    localStorage.removeItem ('usuario');
   }
 
-  /*public autenticarAutomaticamente (): void{
+  public autenticarAutomaticamente (): void{
     const dadosAutenticacao = this.obterDadosDeAutenticacao();
     if (dadosAutenticacao){
-      const agora = new Date();
-      const diferenca = dadosAutenticacao.validade.getTime() - agora.getTime();
-      if (diferenca > 0){
-        this.token = dadosAutenticacao.token;
-        this.autenticado = true;
-        this.idUsuario = dadosAutenticacao.idUsuario;
-        this.tokenTimer = setTimeout(() => {
-          this.logout();
-        }, diferenca);
-        this.authStatusSubject.next(true);
-      }
+      this.token = dadosAutenticacao.token;
+      this.autenticado = true;
+      this.idUsuario = dadosAutenticacao.idUsuario;
+      this.authStatusSubject.next(true);
     }
-  }*/
+  }
+
+  public getUsuarioData() {
+    return JSON.parse(localStorage.getItem('usuario'));
+  }
 
   private obterDadosDeAutenticacao(){
     const token = localStorage.getItem ('token');
-    
     const idUsuario = localStorage.getItem ('idUsuario');
     if (token) {
-      return {token: token, idUsuario: idUsuario}
+      return {token, idUsuario}
     }
     return null;
   }

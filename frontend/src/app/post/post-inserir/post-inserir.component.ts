@@ -4,6 +4,7 @@ import { User } from '../user.model'
 import { Tema } from '../tema.model'
 import { PostService } from '../post.service'
 import { mimeTypeValidator } from './mime-type.validator'
+
 @Component({
   selector: 'app-post-inserir',
   templateUrl: './post-inserir.component.html',
@@ -14,30 +15,6 @@ export class PostInserirComponent implements OnInit {
 
   form: FormGroup;
   isCarregando: boolean = false;
-
-  // Usar para desenvolvimento
-  // user = {
-  //   nome: "Nome do usuário",
-  //   localizacao: "Localizacao do usuário",
-  //   imagem: "../../assets/profile.png"
-  // }
-  // temas = [
-  //   {
-  //     id: 1,
-  //     nome: "Covid-19"
-  //   },
-  //   {
-  //     id: 2,
-
-  //     nome: "Doação"
-  //   },
-  //   {
-  //     id: 3,
-  //     nome: "Hospital"
-  //   },
-  // ]
-
-  // Usar para produção
   user: User
   temas: Tema[] = []
   previewImagem: string
@@ -48,9 +25,8 @@ export class PostInserirComponent implements OnInit {
 
   async ngOnInit(){
     this.isCarregando = true
-    // **Usar para produção**
     this.temas = await this.postService.getListaTemas();
-    this.user = await this.postService.getUser();
+    this.user = await this.postService.getUsuarioData();
     const localizacao = await this.postService.converteLocalizacaoTexto(this.user.localizacao)
     this.coordenada_user = this.user.localizacao
     this.form = new FormGroup({
@@ -69,8 +45,6 @@ export class PostInserirComponent implements OnInit {
     })
     this.isCarregando = false
   }
-
-
 
   onImagemSelecionada(event: Event) {
     const arquivo = (event.target as HTMLInputElement).files[0]
@@ -98,39 +72,47 @@ export class PostInserirComponent implements OnInit {
     if (this.form.invalid){
       return
     }
-    const postdados = {
+    const postDados = {
       localizacao: this.coordenada_user,
       temaId: this.getIdTema(this.form.value.tema),
       corpo: this.form.value.corpo,
       imagem: this.form.value.imagem,
       cidade: this.cidade_post
     }
-    console.log(postdados)
+
     // const dadosPost = new FormData()
     // dadosPost.append('localizacao', this.coordenada_user)
     // dadosPost.append('tema', this.getIdTema(this.form.value.tema).toString())
     // dadosPost.append('texto', this.form.value.texto)
     // dadosPost.append('imagem', this.form.value.imagem)
-    const post = {
-      body: postdados,
-      userId: 4
-    }
-    this.postService.salvarPost(post)
+    this.postService.salvarPost(postDados);
     this.form.reset()
   }
 
-  getLocalizacao() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(async position => {
+//   async getLocalizacao() {
+//     const localizacao = await this.postService.getLocalizacao();
+
+//     this.coordenada_user = localizacao.coordenada
+//     this.form.patchValue({localizacao: localizacao.endereco})
+//     this.cidade_post = localizacao.cidade
+//   }
+
+
+  async getLocalizacao() {
+    if (navigator.geolocation) {
+      const position = navigator.geolocation.getCurrentPosition(async (position) => {
         const { latitude, longitude } = position.coords
         this.coordenada_user = `${latitude},${longitude}`
-        const localizacao = await this.postService.converteLocalizacaoTexto(this.coordenada_user)
-        this.form.patchValue({localizacao: localizacao.endereco})
-        this.cidade_post = localizacao.cidade
+        const endereco = await this.postService.converteLocalizacaoTexto(this.coordenada_user)
+        this.form.patchValue({localizacao: endereco.endereco});
+        this.cidade_post = endereco.cidade
       });
-    } else {
-    this.user.localizacao = "Seu browser não suporta Geolocalização.";}
-  }
+      } else {
+      return "Seu browser não suporta Geolocalização.";
+    }
+  }
+
+
 
   showErrorLocalizacao(error) {
     switch(error.code) {
