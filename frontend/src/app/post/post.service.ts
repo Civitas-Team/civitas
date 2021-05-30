@@ -21,25 +21,30 @@ export class PostService {
     })
   }
 
-  // async getUser() {
-  //   return await this.axios.get(`${this.url}/pessoa/getAll`)
-  //     .then((res) => {
-  //       return res.data[0]
-  //     })
-  // }
+  confirmarPost(idPost) {
+    this.axios.post(`${this.url}/postagem/confirmarInfo/${idPost}`, {}, {headers: {Authorization: this.usuarioService.getToken()}})
+  }
 
   async getUsuarioData() {
     return this.usuarioService.getUsuarioData();
   }
 
-  salvarPost(postBody: {}) {
+  toBase64 = (file: File) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = error => reject(error);
+  });
+
+  salvarPost(postBody) {
+    postBody.imagem = this.toBase64(postBody.imagem);
     this.axios.post(`${this.url}/postagem`, postBody, {headers: {Authorization: this.usuarioService.getToken()}})
   }
 
   async getPosts(page: number, userId: number){
     return this.axios.get(`${this.url}/postagem/getPosts?itensPerPage=5&currentPage=${page}`, {headers: {Authorization: this.usuarioService.getToken()}})
       .then((res) => {
-      return res.data
+        return res.data
     })
   }
 
@@ -57,13 +62,21 @@ export class PostService {
 
   // async getLocalizacao() {
   //   if (navigator.geolocation) {
-  //     const position = await navigator.geolocation.getCurrentPosition((position => position));
+  //     let coordenada = ''
+  //     let endereco = ''
+  //     let cidade = ''
+  //     navigator.geolocation.getCurrentPosition((position) => {
   //       const { latitude, longitude } = position.coords
-  //       const coordenada = `${latitude},${longitude}`
-  //       const endereco = await this.converteLocalizacaoTexto(coordenada)
-  //       const cidade = endereco.cidade
-  //       return {coordenada, endereco, cidade}
-  //     } else {
+  //       this.posicao = `${latitude},${longitude}`
+  //       // const { latitude, longitude } = position.coords
+  //       // coordenada = `${latitude},${longitude}`
+  //       // const localizacao = await this.converteLocalizacaoTexto(coordenada)
+  //       // cidade = localizacao.cidade
+  //       // endereco = localizacao.endereco
+  //     });
+  //     let variavel = this.posicao
+  //     return {coordenada, endereco, cidade, variavel}
+  //   } else {
   //     return "Seu browser não suporta Geolocalização.";
   //   }
   // }

@@ -1,3 +1,28 @@
+<div class="container mb-3 rounded updateLocalizacao post">
+  <form [formGroup]="form" (submit)="onAtualizarLocalizacao()">
+    <div class="row">
+      <div class="col-lg-1 col-2">
+        <button type="button" (click)="getLocalizacao()" mat-icon-button style="width: 80%;">
+          <mat-icon style="font-size: 34px" color="primary">location_on</mat-icon>
+        </button>
+      </div>
+      <div class="col-lg-10 col-10">
+        <div class="form-group">
+          <input
+            type="text"
+            placeholder="localização"
+            class="form-control rounded-pill"
+            name="localizacao"
+            formControlName="localizacao"
+            value="">
+        </div>
+      </div>
+      <div class="col-lg-1">
+        <button mat-button mat-raised-button color="primary">Atualizar</button>
+      </div>
+    </div>
+  </form>
+</div>
 <div
   infinite-scroll
   [infiniteScrollDistance]="infiniteScrollDistance"
@@ -43,7 +68,10 @@
         <img src="{{img}}" class="img-fluid mb-2" style="max-height: 380px">
       </div>
       <div class="row justify-content-end mr-2">
-        <button (click)="enableDisableRule()" [ngClass]="{'black' : toggle, 'check': !toggle}" class="semBorda">
+        <button
+          (click)="onConfirmarPost(post.id)"
+          [ngClass]="{'black' : post.confirmadaPeloUsuarioLogado, 'check': !post.confirmadaPeloUsuarioLogado}"
+          class="semBorda">
           <mat-icon class="icone"> check_circle_outline </mat-icon>
         </button>
       </div>

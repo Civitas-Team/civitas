@@ -48,7 +48,6 @@ export class PostInserirComponent implements OnInit {
 
   onImagemSelecionada(event: Event) {
     const arquivo = (event.target as HTMLInputElement).files[0]
-    console.log(arquivo)
     this.form.patchValue({'imagem': arquivo})
     this.form.get('imagem').updateValueAndValidity()
     const reader = new FileReader()
@@ -89,18 +88,9 @@ export class PostInserirComponent implements OnInit {
     this.form.reset()
   }
 
-//   async getLocalizacao() {
-//     const localizacao = await this.postService.getLocalizacao();
-
-//     this.coordenada_user = localizacao.coordenada
-//     this.form.patchValue({localizacao: localizacao.endereco})
-//     this.cidade_post = localizacao.cidade
-//   }
-
-
   async getLocalizacao() {
     if (navigator.geolocation) {
-      const position = navigator.geolocation.getCurrentPosition(async (position) => {
+      navigator.geolocation.getCurrentPosition(async (position) => {
         const { latitude, longitude } = position.coords
         this.coordenada_user = `${latitude},${longitude}`
         const endereco = await this.postService.converteLocalizacaoTexto(this.coordenada_user)
@@ -112,23 +102,33 @@ export class PostInserirComponent implements OnInit {
     }
   }
 
+  // async getLocalizacao() {
+  //   const localizacao = await this.postService.getLocalizacao()
+  //   console.log(localizacao)
+  //   if (localizacao['coordenada']) {
+  //     this.coordenada_user = localizacao['coordenada']
+  //     this.form.patchValue({localizacao: localizacao['endereco']})
+  //     this.cidade_post = localizacao['cidade']
+  //   } else {
+  //     this.form.patchValue({localizacao: localizacao})
+  //   }
+  // }
 
-
-  showErrorLocalizacao(error) {
-    switch(error.code) {
-      case error.PERMISSION_DENIED:
-        this.user.localizacao = "Usuário rejeitou exibir sua localização."
-        break;
-      case error.POSITION_UNAVAILABLE:
-        this.user.localizacao = "Localização indisponível."
-        break;
-      case error.TIMEOUT:
-        this.user.localizacao = "A requisição expirou."
-        break;
-      case error.UNKNOWN_ERROR:
-        this.user.localizacao = "Algum erro desconhecido aconteceu."
-        break;
-      }
-  }
+  // showErrorLocalizacao(error) {
+  //   switch(error.code) {
+  //     case error.PERMISSION_DENIED:
+  //       this.user.localizacao = "Usuário rejeitou exibir sua localização."
+  //       break;
+  //     case error.POSITION_UNAVAILABLE:
+  //       this.user.localizacao = "Localização indisponível."
+  //       break;
+  //     case error.TIMEOUT:
+  //       this.user.localizacao = "A requisição expirou."
+  //       break;
+  //     case error.UNKNOWN_ERROR:
+  //       this.user.localizacao = "Algum erro desconhecido aconteceu."
+  //       break;
+  //     }
+  // }
 
 }
