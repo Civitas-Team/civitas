@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +31,7 @@ public class PessoaController {
 	@Autowired
 	private PessoaService service;
 	
-	@PostMapping("/insert")
+	@PostMapping("/cadastroUsuario")
 	public ResponseEntity<?> insert(@RequestBody Pessoa person, HttpServletRequest request) {
 		try {
 			
@@ -45,8 +47,41 @@ public class PessoaController {
 			}
 			
 		} catch(Exception e) {
+			return ResponseEntityHelper.createResponse(e, HttpStatus.INTERNAL_SERVER_ERROR, request);
+		}
+	}
+	
+	@PostMapping("/update")
+	public ResponseEntity<?> update(@RequestBody Pessoa pessoa, HttpServletRequest request) {
+		try {
+			Pessoa pessoaAtualizada = service.update(pessoa);
+			
+			if(pessoaAtualizada != null) {
+				return ResponseEntity.status(HttpStatus.ACCEPTED).body(pessoaAtualizada);
+			} else {
+				throw new Exception("Ocorreu algum erro durante a atualização do usuário");
+			}
+			
+		} catch(Exception e) {
+			return ResponseEntityHelper.createResponse(e, HttpStatus.FORBIDDEN, request);
+		}
+	}
+	
+	@PostMapping("/reenviarEmail")
+	public ResponseEntity<?> reenviarEmail(@RequestHeader Long id, HttpServletRequest request) {
+		try {
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.reenviarEmail(id));
+		} catch(Exception e) {
+			return ResponseEntityHelper.createResponse(e, HttpStatus.FORBIDDEN, request);
+		}
+	}
+	
+	@GetMapping("/confirmarEmail")
+	public void confirmarEmail(@RequestParam("user") Long id) {
+		try {
+			service.ConfirmarEmail(id);
+		} catch(Exception e) {
 			e.printStackTrace();
-			return null;
 		}
 	}
 	
@@ -59,7 +94,7 @@ public class PessoaController {
 		}
 	}
 	
-	@GetMapping("/logout")
+	@PostMapping("/logout")
 	public ResponseEntity<?> logout(@RequestHeader Long id, @RequestHeader String token, HttpServletRequest request) {
 		try {
 			return ResponseEntity.ok(service.excluirToken(id, token));

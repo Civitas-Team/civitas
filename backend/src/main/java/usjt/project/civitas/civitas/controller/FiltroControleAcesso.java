@@ -82,7 +82,7 @@ public class FiltroControleAcesso implements Filter {
 
 	//Função para válidar se a chamada é permitida sem o token.
 	private boolean byPass(HttpServletRequest req) {
-		final String[] freeAcessPoints = { "/login", "/insert", "/logout"};
+		final String[] freeAcessPoints = { "/login", "/cadastroUsuario", "/confirmarEmail", "/reenviarEmail"};
 		for (String freeAcessPoint : freeAcessPoints) {
 			if (req.getRequestURI().contains(req.getContextPath() + freeAcessPoint)) {
 				return true;
