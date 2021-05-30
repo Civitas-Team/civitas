@@ -33,7 +33,6 @@ public class Postagem implements Serializable {
     private Date data;
 	@Column
 	private String corpo;
-
 	@Column
 	private String imagem;
 	@Column
@@ -49,7 +48,8 @@ public class Postagem implements Serializable {
 	private Long temaId;
 	@Transient
 	private String distanciaDaPessoaLogada;
-	
+	@Transient
+	private boolean confirmadaPeloUsuarioLogado;
     @OneToMany(mappedBy = "idPostagem")
     @JsonIgnoreProperties("idPostagem")
     private Set<ConfirmacaoDeInfo> confirmacaoDeInfo;
@@ -126,6 +126,12 @@ public class Postagem implements Serializable {
 	}
 	public void setConfirmacaoDeInfo(Set<ConfirmacaoDeInfo> confirmacaoDeInfo) {
 		this.confirmacaoDeInfo = confirmacaoDeInfo;
+	}
+	public boolean isConfirmadaPeloUsuarioLogado() {
+		return confirmadaPeloUsuarioLogado;
+	}
+	public void setConfirmadaPeloUsuarioLogado(boolean confirmadaPeloUsuarioLogado) {
+		this.confirmadaPeloUsuarioLogado = confirmadaPeloUsuarioLogado;
 	}
 	
 	@Override

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import usjt.project.civitas.civitas.entity.ConfirmacaoDeInfo;
 import usjt.project.civitas.civitas.entity.Imagem;
 import usjt.project.civitas.civitas.entity.Pessoa;
 import usjt.project.civitas.civitas.entity.Postagem;
@@ -89,9 +90,15 @@ public class PostagemController {
 		}
 
 		posts = PaginationHelper.getPage(posts, currentPage, itensPerPage);
+		
+		for(Postagem post: posts) {
+			for(ConfirmacaoDeInfo confirmacaoDeInfo : post.getConfirmacaoDeInfo()) {
+				if(confirmacaoDeInfo.getIdPessoa().getId() == pessoaLogada.getId()) post.setConfirmadaPeloUsuarioLogado(true);
+			}
+		}
 
 		SearchResult searchResult = new SearchResult(posts, totalPages, totalOfResults, currentPage);
-
+		
 		return ResponseEntity.ok(searchResult);
 	}
 

@@ -48,17 +48,16 @@ public class PostagemService {
 			String dist1 = pessoaLocalizacao.replace(" ", "");
 			String[] dist1splited = dist1.split(",");
 			
-			List<Postagem> postagensPorDaCidade = postagemRepo.findByCidade(pessoa.getCidade());
-//			List<Postagem> postagensComDistancia = new ArrayList<Postagem>();
-			for (Postagem postagem : postagensPorDaCidade) {
+			List<Postagem> postagensDaCidade = postagemRepo.findByCidade(pessoa.getCidade());
+			for (Postagem postagem : postagensDaCidade) {
 				
 				String dist2 = postagem.getLocalizacao().replace(" ", "");
 				String[] dist2splited = dist2.split(",");
 				postagem.setDistanciaDaPessoaLogada(calculaDistancia(Double.parseDouble(dist1splited[0]), Double.parseDouble(dist1splited[1]), 
 																	Double.parseDouble(dist2splited[0]), Double.parseDouble(dist2splited[1])));
 			}
-			postagensPorDaCidade.sort(Comparator.comparing(Postagem::getDistanciaDaPessoaLogada));
-			return postagensPorDaCidade;
+			postagensDaCidade.sort(Comparator.comparing(Postagem::getDistanciaDaPessoaLogada));
+			return postagensDaCidade;
 		} catch (NotFoundPersonException | IDNullException e) {
 			throw new RuntimeException(e);
 		}
