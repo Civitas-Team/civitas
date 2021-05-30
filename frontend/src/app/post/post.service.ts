@@ -29,15 +29,16 @@ export class PostService {
     return this.usuarioService.getUsuarioData();
   }
 
-  toBase64 = (file: File) => new Promise((resolve, reject) => {
+  toBase64 = async (file: File) => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result as string);
     reader.onerror = error => reject(error);
   });
 
-  salvarPost(postBody) {
-    postBody.imagem = this.toBase64(postBody.imagem);
+  async salvarPost(postBody) {
+    postBody.imagem = await this.toBase64(postBody.imagem);
+    console.log(JSON.stringify(postBody))
     this.axios.post(`${this.url}/postagem`, postBody, {headers: {Authorization: this.usuarioService.getToken()}})
   }
 

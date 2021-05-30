@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -33,7 +34,8 @@ public class Postagem implements Serializable {
     private Date data;
 	@Column
 	private String corpo;
-	@Column
+	@Lob
+	@Column( length = 100000 )
 	private String imagem;
 	@Column
 	private String localizacao;
@@ -71,12 +73,6 @@ public class Postagem implements Serializable {
 	}
 	public void setCorpo(String corpo) {
 		this.corpo = corpo;
-	}
-	public String getImagem() {
-		return imagem;
-	}
-	public void setImagem(String imagem) {
-		this.imagem = imagem;
 	}
 	public Date getData() {
 		return data;
@@ -133,15 +129,23 @@ public class Postagem implements Serializable {
 	public void setConfirmadaPeloUsuarioLogado(boolean confirmadaPeloUsuarioLogado) {
 		this.confirmadaPeloUsuarioLogado = confirmadaPeloUsuarioLogado;
 	}
-	
+	public String getImagem() {
+		return imagem;
+	}
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((cidade == null) ? 0 : cidade.hashCode());
+		result = prime * result + ((confirmacaoDeInfo == null) ? 0 : confirmacaoDeInfo.hashCode());
+		result = prime * result + (confirmadaPeloUsuarioLogado ? 1231 : 1237);
 		result = prime * result + ((corpo == null) ? 0 : corpo.hashCode());
 		result = prime * result + ((data == null) ? 0 : data.hashCode());
+		result = prime * result + ((distanciaDaPessoaLogada == null) ? 0 : distanciaDaPessoaLogada.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((imagem == null) ? 0 : imagem.hashCode());
 		result = prime * result + ((localizacao == null) ? 0 : localizacao.hashCode());
 		result = prime * result + ((pessoa == null) ? 0 : pessoa.hashCode());
 		result = prime * result + ((tema == null) ? 0 : tema.hashCode());
@@ -157,6 +161,18 @@ public class Postagem implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Postagem other = (Postagem) obj;
+		if (cidade == null) {
+			if (other.cidade != null)
+				return false;
+		} else if (!cidade.equals(other.cidade))
+			return false;
+		if (confirmacaoDeInfo == null) {
+			if (other.confirmacaoDeInfo != null)
+				return false;
+		} else if (!confirmacaoDeInfo.equals(other.confirmacaoDeInfo))
+			return false;
+		if (confirmadaPeloUsuarioLogado != other.confirmadaPeloUsuarioLogado)
+			return false;
 		if (corpo == null) {
 			if (other.corpo != null)
 				return false;
@@ -167,15 +183,15 @@ public class Postagem implements Serializable {
 				return false;
 		} else if (!data.equals(other.data))
 			return false;
+		if (distanciaDaPessoaLogada == null) {
+			if (other.distanciaDaPessoaLogada != null)
+				return false;
+		} else if (!distanciaDaPessoaLogada.equals(other.distanciaDaPessoaLogada))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		if (imagem == null) {
-			if (other.imagem != null)
-				return false;
-		} else if (!imagem.equals(other.imagem))
 			return false;
 		if (localizacao == null) {
 			if (other.localizacao != null)
