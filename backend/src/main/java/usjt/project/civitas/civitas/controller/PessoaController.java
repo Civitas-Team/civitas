@@ -3,20 +3,20 @@ package usjt.project.civitas.civitas.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.binary.Base64;
+import org.omg.CORBA.SetOverrideTypeHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
 import usjt.project.civitas.civitas.entity.Imagem;
 import usjt.project.civitas.civitas.entity.Login;
@@ -52,7 +52,11 @@ public class PessoaController {
 	}
 	
 	@PostMapping("/update")
-	public ResponseEntity<?> update(@RequestBody Pessoa pessoa, HttpServletRequest request) {
+	public ResponseEntity<?> update(@RequestHeader String authorization, @RequestBody Pessoa pessoa, HttpServletRequest request) throws Exception {
+		if(!pessoa.getToken().equals(authorization)) {
+			throw new Exception("Token não pertence ao usuário a ser atualizado");
+		}
+		
 		try {
 			Pessoa pessoaAtualizada = service.update(pessoa);
 			
@@ -77,12 +81,13 @@ public class PessoaController {
 	}
 	
 	@GetMapping("/confirmarEmail")
-	public void confirmarEmail(@RequestParam("user") Long id) {
+	public RedirectView confirmarEmail(@RequestParam("user") Long id) {
 		try {
 			service.ConfirmarEmail(id);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		return new RedirectView("http://localhost:4200");
 	}
 	
 	@PostMapping("/login")
@@ -95,9 +100,9 @@ public class PessoaController {
 	}
 	
 	@PostMapping("/logout")
-	public ResponseEntity<?> logout(@RequestHeader Long id, @RequestHeader String token, HttpServletRequest request) {
+	public ResponseEntity<?> logout(@RequestHeader Long id, @RequestHeader String authorization, HttpServletRequest request) {
 		try {
-			return ResponseEntity.ok(service.excluirToken(id, token));
+			return ResponseEntity.ok(service.excluirToken(id, authorization));
 		} catch(Exception e) {
 			return ResponseEntityHelper.createResponse(e, HttpStatus.FORBIDDEN, request);
 		}

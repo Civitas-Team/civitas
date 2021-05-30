@@ -29,6 +29,7 @@ import usjt.project.civitas.civitas.entity.Pessoa;
 import usjt.project.civitas.civitas.repository.PessoaRepository;
 import usjt.project.civitas.civitas.validation.IDNullException;
 import usjt.project.civitas.civitas.validation.InvalidPasswordException;
+import usjt.project.civitas.civitas.validation.InvalidTokenException;
 import usjt.project.civitas.civitas.validation.NotFoundPersonException;
 import usjt.project.civitas.civitas.validation.NullTokenException;
 import usjt.project.civitas.civitas.validation.ObjectNullException;
@@ -70,6 +71,17 @@ public class PessoaService {
 	//Função para atualizar uma pessoa
 	//Recebe um objeto pessoa, que representa o objeto a subtituir o objeto que temos para aquele usuário
 	public Pessoa update(Pessoa pessoa) throws Exception {
+		
+		Pessoa pessoaBanco = repo.findByToken(pessoa.getToken());
+		String senhaPassada = pessoa.getSenha();
+		if(pessoaBanco.getId() == pessoa.getId()) {
+			if(!pessoaBanco.getSenha().equals(senhaPassada)) {
+				pessoa.setSenha(criptografar(senhaPassada));
+			}
+		} else {
+			throw new InvalidTokenException();
+		}
+		
 		try {
 			validarUpdate(pessoa);
 			return repo.save(pessoa);
