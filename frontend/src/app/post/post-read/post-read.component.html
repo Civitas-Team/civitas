@@ -68,7 +68,10 @@
         <img src="{{img}}" class="img-fluid mb-2" style="max-height: 380px">
       </div>
       <div class="row justify-content-end mr-2">
-        <button (click)="enableDisableRule()" [ngClass]="{'black' : toggle, 'check': !toggle}" class="semBorda">
+        <button
+          (click)="onConfirmarPost(post.id)"
+          [ngClass]="{'black' : post.confirmadaPeloUsuarioLogado, 'check': !post.confirmadaPeloUsuarioLogado}"
+          class="semBorda">
           <mat-icon class="icone"> check_circle_outline </mat-icon>
         </button>
       </div>

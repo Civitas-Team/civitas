@@ -27,8 +27,7 @@ export class PostReadComponent implements OnInit, OnDestroy {
   localizacao: string = "-23.532466,-46.529625"
   img = "../../assets/imagem.jpg"
   semPosts = true;
-  toggle = true;
-  status = 'Enable';
+  confirmado = true;
   usuario_coordenada: string;
   usuario_cidade: string;
   private authStatusSubscription: Subscription;
@@ -46,6 +45,8 @@ export class PostReadComponent implements OnInit, OnDestroy {
         validators: []
       })
     })
+    await this.getLocalizacao();
+    await this.onAtualizarLocalizacao();
     this.authStatusSubscription = this.usuarioService.getStatusSubject()
       .subscribe( async () => {
         await this.iniciar();
@@ -97,9 +98,12 @@ export class PostReadComponent implements OnInit, OnDestroy {
     this.isCarregando = false
   }
 
-  enableDisableRule() {
-    this.toggle = !this.toggle;
-    this.status = this.toggle ? 'Enable' : 'Disable';
+  onConfirmarPost(postId) {
+    // this.confirmado = !this.confirmado;
+    const post = this.posts.findIndex((post) => post.id === postId)
+    this.posts[0].confirmadaPeloUsuarioLogado = !this.posts[0].confirmadaPeloUsuarioLogado;
+    this.postService.confirmarPost(postId);
+
   }
 
   async getLocalizacao() {
@@ -120,7 +124,6 @@ export class PostReadComponent implements OnInit, OnDestroy {
     const usuario_data = this.usuarioService.getUsuarioData();
     usuario_data.localizacao = this.usuario_coordenada;
     usuario_data.cidade = this.usuario_cidade;
-    console.log(usuario_data);
     // await this.usuarioService.updateUsuario(usuario_data)
     await this.iniciar()
   }

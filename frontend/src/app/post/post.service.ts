@@ -21,6 +21,10 @@ export class PostService {
     })
   }
 
+  confirmarPost(idPost) {
+    this.axios.post(`${this.url}/postagem/confirmarInfo/${idPost}`, {}, {headers: {Authorization: this.usuarioService.getToken()}})
+  }
+
   // async getUser() {
   //   return await this.axios.get(`${this.url}/pessoa/getAll`)
   //     .then((res) => {
