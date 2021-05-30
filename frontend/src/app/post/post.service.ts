@@ -25,25 +25,26 @@ export class PostService {
     this.axios.post(`${this.url}/postagem/confirmarInfo/${idPost}`, {}, {headers: {Authorization: this.usuarioService.getToken()}})
   }
 
-  // async getUser() {
-  //   return await this.axios.get(`${this.url}/pessoa/getAll`)
-  //     .then((res) => {
-  //       return res.data[0]
-  //     })
-  // }
-
   async getUsuarioData() {
     return this.usuarioService.getUsuarioData();
   }
 
-  salvarPost(postBody: {}) {
+  toBase64 = (file: File) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = error => reject(error);
+  });
+
+  salvarPost(postBody) {
+    postBody.imagem = this.toBase64(postBody.imagem);
     this.axios.post(`${this.url}/postagem`, postBody, {headers: {Authorization: this.usuarioService.getToken()}})
   }
 
   async getPosts(page: number, userId: number){
     return this.axios.get(`${this.url}/postagem/getPosts?itensPerPage=5&currentPage=${page}`, {headers: {Authorization: this.usuarioService.getToken()}})
       .then((res) => {
-      return res.data
+        return res.data
     })
   }
 

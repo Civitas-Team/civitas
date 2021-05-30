@@ -48,7 +48,6 @@ export class PostInserirComponent implements OnInit {
 
   onImagemSelecionada(event: Event) {
     const arquivo = (event.target as HTMLInputElement).files[0]
-    console.log(arquivo)
     this.form.patchValue({'imagem': arquivo})
     this.form.get('imagem').updateValueAndValidity()
     const reader = new FileReader()

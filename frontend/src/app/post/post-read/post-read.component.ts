@@ -101,7 +101,7 @@ export class PostReadComponent implements OnInit, OnDestroy {
   onConfirmarPost(postId) {
     // this.confirmado = !this.confirmado;
     const post = this.posts.findIndex((post) => post.id === postId)
-    this.posts[0].confirmadaPeloUsuarioLogado = !this.posts[0].confirmadaPeloUsuarioLogado;
+    this.posts[post].confirmadaPeloUsuarioLogado = !this.posts[post].confirmadaPeloUsuarioLogado;
     this.postService.confirmarPost(postId);
 
   }
