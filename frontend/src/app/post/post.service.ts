@@ -57,13 +57,21 @@ export class PostService {
 
   // async getLocalizacao() {
   //   if (navigator.geolocation) {
-  //     const position = await navigator.geolocation.getCurrentPosition((position => position));
+  //     let coordenada = ''
+  //     let endereco = ''
+  //     let cidade = ''
+  //     navigator.geolocation.getCurrentPosition((position) => {
   //       const { latitude, longitude } = position.coords
-  //       const coordenada = `${latitude},${longitude}`
-  //       const endereco = await this.converteLocalizacaoTexto(coordenada)
-  //       const cidade = endereco.cidade
-  //       return {coordenada, endereco, cidade}
-  //     } else {
+  //       this.posicao = `${latitude},${longitude}`
+  //       // const { latitude, longitude } = position.coords
+  //       // coordenada = `${latitude},${longitude}`
+  //       // const localizacao = await this.converteLocalizacaoTexto(coordenada)
+  //       // cidade = localizacao.cidade
+  //       // endereco = localizacao.endereco
+  //     });
+  //     let variavel = this.posicao
+  //     return {coordenada, endereco, cidade, variavel}
+  //   } else {
   //     return "Seu browser não suporta Geolocalização.";
   //   }
   // }

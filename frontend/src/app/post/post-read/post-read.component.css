@@ -15,6 +15,11 @@ mat-spinner{
   font-size: 20px;
 }
 
+.updateLocalizacao{
+  padding: 2rem;
+  margin-bottom: 1rem
+}
+
 ::ng-deep.mat-menu-panel {
   max-width: none !important;
 }

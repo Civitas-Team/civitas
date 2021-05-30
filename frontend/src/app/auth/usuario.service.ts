@@ -80,11 +80,6 @@ export class UsuarioService {
         .subscribe((resposta) => {
           const dadosUsuario = resposta
           if (dadosUsuario.token){
-            /*const tempoValidadeToken = resposta.expiresIn;
-            this.tokenTimer = setTimeout(() => {
-              this.logout();
-            }, tempoValidadeToken * 1000);
-            console.log(resposta);*/
             this.autenticado = true;
             this.authStatusSubject.next(true);
             this.salvarDadosDeAutenticacao(dadosUsuario);
@@ -128,6 +123,11 @@ export class UsuarioService {
       return {token, idUsuario}
     }
     return null;
+  }
+
+  public async updateUsuario(usuario) {
+    return this.httpClient.post(environment.backend_host + "/pessoa/login", usuario, { headers: { Authorization: this.getToken() }})
+      .subscribe(() => 'update feito com sucesso')
   }
 
 }
