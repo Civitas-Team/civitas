@@ -18,3 +18,20 @@ mat-spinner{
 ::ng-deep.mat-menu-panel {
   max-width: none !important;
 }
+
+.black{
+  color:black;
+}
+
+.check {
+  color: #8BC34A;
+}
+
+.icone{
+  font-size: 2rem;
+}
+
+.semBorda{
+  border: 0;
+  background-color:#ccdbdb;
+}

@@ -23,9 +23,12 @@ export class PostReadComponent implements OnInit {
   localizacao: string = "-23.532466,-46.529625"
   img = "../../assets/imagem.jpg"
   semPosts = true;
+  toggle = true;
+  status = 'Enable';
   // post = {
   //   localizacao: 'localizacao'
   // }
+
 
   constructor(private postService: PostService) {}
 
@@ -64,7 +67,11 @@ export class PostReadComponent implements OnInit {
     this.posts = this.posts.concat(respostaPosts.data)
     this.isCarregando = false
   }
-
+  
+  enableDisableRule() {
+    this.toggle = !this.toggle;
+    this.status = this.toggle ? 'Enable' : 'Disable';
+  } 
   // renderizarImagem(arquivo: File) {
   //   const reader = new FileReader()
   //   const imagem = reader.onload = () => {
