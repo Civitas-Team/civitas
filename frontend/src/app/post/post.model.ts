@@ -1,3 +1,4 @@
+import { Confirmacao } from "./confirmacao.model";
 import { Tema } from "./tema.model";
 import { User } from "./user.model";
 
@@ -12,5 +13,5 @@ export interface Post {
   tema: Tema;
   distanciaDaPessoaLogada: string;
   confirmadaPeloUsuarioLogado: boolean;
-  confirmacaoDeInfo: User[];
+  confirmacaoDeInfo: Confirmacao[];
 }

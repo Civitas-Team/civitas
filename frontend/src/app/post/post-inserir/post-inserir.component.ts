@@ -78,12 +78,6 @@ export class PostInserirComponent implements OnInit {
       imagem: this.form.value.imagem,
       cidade: this.cidade_post
     }
-
-    // const dadosPost = new FormData()
-    // dadosPost.append('localizacao', this.coordenada_user)
-    // dadosPost.append('tema', this.getIdTema(this.form.value.tema).toString())
-    // dadosPost.append('texto', this.form.value.texto)
-    // dadosPost.append('imagem', this.form.value.imagem)
     this.postService.salvarPost(postDados);
     this.form.reset()
   }

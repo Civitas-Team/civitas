@@ -10,7 +10,7 @@ import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErroInterceptor } from './erro-interceptor';
 
 import { PostInserirComponent } from './post/post-inserir/post-inserir.component';
-import { PostReadComponent } from './post/post-read/post-read.component';
+import { PostReadComponent, DialogListaConfirmacaoComponent } from './post/post-read/post-read.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component'
 
@@ -31,6 +31,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +39,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     PostReadComponent,
     RootNavComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    DialogListaConfirmacaoComponent
   ],
   imports: [
     BrowserModule,
@@ -62,6 +64,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     FormsModule,
     MatDialogModule,
   ],
+
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErroInterceptor, multi: true},

@@ -1,10 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Post } from '../post.model';
 import { PostService } from '../post.service'
 import { UsuarioService } from '../../auth/usuario.service'
 import { environment } from '../../../environments/environment'
 import { Form, FormControl, FormGroup } from '@angular/forms';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { User } from '../user.model';
+import { Confirmacao } from '../confirmacao.model';
+
 @Component({
   selector: 'app-post-read',
   templateUrl: './post-read.component.html',
@@ -31,15 +35,19 @@ export class PostReadComponent implements OnInit, OnDestroy {
   usuario_coordenada: string;
   usuario_cidade: string;
   private authStatusSubscription: Subscription;
-  // post = {
-  //   localizacao: 'localizacao'
-  // }
 
 
-  constructor(private postService: PostService, private usuarioService: UsuarioService) {}
-
+  constructor(
+    private postService: PostService,
+    private usuarioService: UsuarioService,
+    public dialog: MatDialog,
+  ) {}
 
   async ngOnInit() {
+    this.authStatusSubscription = this.usuarioService.getStatusSubject()
+      .subscribe( async (authStatus) => {
+        await this.iniciar();
+      });
     this.form = new FormGroup({
       localizacao: new FormControl(null, {
         validators: []
@@ -47,10 +55,6 @@ export class PostReadComponent implements OnInit, OnDestroy {
     })
     await this.getLocalizacao();
     await this.onAtualizarLocalizacao();
-    this.authStatusSubscription = this.usuarioService.getStatusSubject()
-      .subscribe( async () => {
-        await this.iniciar();
-      });
     await this.iniciar();
   }
 
@@ -75,10 +79,6 @@ export class PostReadComponent implements OnInit, OnDestroy {
       return numero;
   }
 
-  funcaoTeste() {
-    this.ngOnInit();
-  }
-
   formataData(data: string){
     let dataPost = new Date(data);
     return (this.adicionaZero(dataPost.getDate().toString()) +
@@ -98,11 +98,11 @@ export class PostReadComponent implements OnInit, OnDestroy {
     this.isCarregando = false
   }
 
-  onConfirmarPost(postId) {
+  onConfirmarPost(post_id) {
     // this.confirmado = !this.confirmado;
-    const post = this.posts.findIndex((post) => post.id === postId)
+    const post = this.posts.findIndex((post) => post.id === post_id)
     this.posts[post].confirmadaPeloUsuarioLogado = !this.posts[post].confirmadaPeloUsuarioLogado;
-    this.postService.confirmarPost(postId);
+    this.postService.confirmarPost(post_id);
 
   }
 
@@ -128,12 +128,30 @@ export class PostReadComponent implements OnInit, OnDestroy {
     await this.iniciar()
   }
 
-  // renderizarImagem(arquivo: File) {
-  //   const reader = new FileReader()
-  //   const imagem = reader.onload = () => {
-  //     return reader.result as string
-  //   }
-  //   reader.readAsDataURL(arquivo)
-  //   return imagem;
-  // }
+  renderizarImagem(arquivo: File) {
+    const reader = new FileReader()
+    const imagem = reader.onload = () => {
+      return reader.result as string
+    }
+    reader.readAsDataURL(arquivo)
+    return imagem;
+  }
+
+  openDialog(id_post): void {
+    const post = this.posts.find((post) => post.id === id_post);
+    this.dialog.open(DialogListaConfirmacaoComponent, {
+      data: post.confirmacaoDeInfo
+    });
+  }
+}
+
+@Component({
+  selector: 'dialog-lista-confirmacao',
+  templateUrl: 'dialog-lista-confirmacao.html',
+})
+export class DialogListaConfirmacaoComponent {
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: Confirmacao[]) {}
+
 }

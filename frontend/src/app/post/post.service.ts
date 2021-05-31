@@ -37,8 +37,14 @@ export class PostService {
   });
 
   async salvarPost(postBody) {
+<<<<<<< HEAD
     postBody.imagem = await this.toBase64(postBody.imagem);
     console.log(JSON.stringify(postBody))
+=======
+    if (postBody.imagem) {
+      postBody.imagem = await this.toBase64(postBody.imagem);
+    }
+>>>>>>> origin/updateLocalizacao
     this.axios.post(`${this.url}/postagem`, postBody, {headers: {Authorization: this.usuarioService.getToken()}})
   }
 
