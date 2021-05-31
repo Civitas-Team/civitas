@@ -36,8 +36,10 @@ export class PostService {
     reader.onerror = error => reject(error);
   });
 
-  salvarPost(postBody) {
-    postBody.imagem = this.toBase64(postBody.imagem);
+  async salvarPost(postBody) {
+    if (postBody.imagem) {
+      postBody.imagem = await this.toBase64(postBody.imagem);
+    }
     this.axios.post(`${this.url}/postagem`, postBody, {headers: {Authorization: this.usuarioService.getToken()}})
   }
 

@@ -36,7 +36,7 @@ export class UsuarioService {
   }
 
   public logout() {
-    this.httpClient.get(environment.backend_host+"/pessoa/logout", {headers: {token: this.token, id: this.idUsuario}})
+    this.httpClient.post(environment.backend_host+"/pessoa/logout", {},{headers: {Authorization: this.token, id: this.idUsuario}})
       .subscribe(() => {
         this.token = null;
         this.authStatusSubject.next(false);
@@ -54,7 +54,7 @@ export class UsuarioService {
       email,
       senha,
     }
-    this.httpClient.post(environment.backend_host+"/pessoa/insert", dadosUsuario)
+    this.httpClient.post(environment.backend_host+"/pessoa/cadastroUsuario", dadosUsuario)
       .subscribe({
         next: () => {
           this.router.navigate(['login']);

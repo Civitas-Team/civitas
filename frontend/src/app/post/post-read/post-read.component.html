@@ -65,12 +65,15 @@
         </div>
       </div>
       <div class="row justify-content-center">
-        <img src="{{img}}" class="img-fluid mb-2" style="max-height: 380px">
+        <img src="{{post.imagem}}" class="img-fluid mb-2" style="max-height: 380px">
       </div>
       <div class="row justify-content-end mr-2">
+        <button (click)="openDialog(post.id)" class="semBorda">
+          {{post.confirmacaoDeInfo.length}}
+        </button>
         <button
           (click)="onConfirmarPost(post.id)"
-          [ngClass]="{'black' : post.confirmadaPeloUsuarioLogado, 'check': !post.confirmadaPeloUsuarioLogado}"
+          [ngClass]="{'black' : !post.confirmadaPeloUsuarioLogado, 'check': post.confirmadaPeloUsuarioLogado}"
           class="semBorda">
           <mat-icon class="icone"> check_circle_outline </mat-icon>
         </button>
