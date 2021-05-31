@@ -126,8 +126,8 @@ export class UsuarioService {
   }
 
   public async updateUsuario(usuario) {
-    return this.httpClient.post(environment.backend_host + "/pessoa/login", usuario, { headers: { Authorization: this.getToken() }})
+    return this.httpClient.post(environment.backend_host + "/pessoa/update", usuario, { headers: { Authorization: this.getToken() }})
       .subscribe(() => 'update feito com sucesso')
+    
   }
-
 }

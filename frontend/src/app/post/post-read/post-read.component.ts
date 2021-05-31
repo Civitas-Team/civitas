@@ -99,9 +99,15 @@ export class PostReadComponent implements OnInit, OnDestroy {
   }
 
   onConfirmarPost(post_id) {
-    // this.confirmado = !this.confirmado;
     const post = this.posts.findIndex((post) => post.id === post_id)
     this.posts[post].confirmadaPeloUsuarioLogado = !this.posts[post].confirmadaPeloUsuarioLogado;
+    const id_usuario = this.usuarioService.getIdUsuario()
+    const usuario_index = this.posts[post].confirmacaoDeInfo.findIndex((usuario) => usuario.idPessoa.id == parseInt(id_usuario))
+    if (usuario_index >= 0) {
+      this.posts[post].confirmacaoDeInfo.splice(usuario_index, 1)
+    } else {
+      this.posts[post].confirmacaoDeInfo.push({id: null, idPessoa: this.usuarioService.getUsuarioData()})
+    }
     this.postService.confirmarPost(post_id);
 
   }
@@ -124,7 +130,7 @@ export class PostReadComponent implements OnInit, OnDestroy {
     const usuario_data = this.usuarioService.getUsuarioData();
     usuario_data.localizacao = this.usuario_coordenada;
     usuario_data.cidade = this.usuario_cidade;
-    // await this.usuarioService.updateUsuario(usuario_data)
+    await this.usuarioService.updateUsuario(usuario_data)
     await this.iniciar()
   }
 
