@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import usjt.project.civitas.civitas.entity.ConfirmacaoDeInfo;
 import usjt.project.civitas.civitas.entity.Pessoa;
 import usjt.project.civitas.civitas.entity.Postagem;
 import usjt.project.civitas.civitas.repository.PostagemRepository;
@@ -24,6 +25,9 @@ public class PostagemService {
 	
 	@Autowired
 	private PessoaService pessoaService;
+	
+	@Autowired
+	private ConfirmacaoDeInfoService confirmacaoDeInfoService;
 	
 	@Autowired
 	private PostagemRepository postagemRepo;
@@ -72,6 +76,9 @@ public class PostagemService {
 			pessoa = pessoaService.getByID(userId);
 	        Postagem postagem = getById(postId);
 	        if (pessoa != null && pessoa.equals(postagem.getPessoa())) {
+	        	for(ConfirmacaoDeInfo confirmacao : postagem.getConfirmacaoDeInfo()) {
+	        		confirmacaoDeInfoService.deleteById(confirmacao.getId());
+	        	}
 	            postagemRepo.deleteById(postId);
 	        } else {
 	            throw new InvalidTokenException();

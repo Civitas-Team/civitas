@@ -39,4 +39,8 @@ public class ConfirmacaoDeInfoService {
 		}
 		return true;
 	}
+
+	public void deleteById(long id) {
+		confirmacaoDeInfoRepository.deleteById(id);
+	}
 }
