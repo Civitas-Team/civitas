@@ -53,8 +53,8 @@ export class PostReadComponent implements OnInit, OnDestroy {
         validators: []
       })
     })
-    await this.getLocalizacao();
-    await this.onAtualizarLocalizacao();
+    // await this.getLocalizacao();
+    // await this.onAtualizarLocalizacao();
     await this.iniciar();
   }
 
@@ -153,7 +153,7 @@ export class PostReadComponent implements OnInit, OnDestroy {
 
 @Component({
   selector: 'dialog-lista-confirmacao',
-  templateUrl: 'dialog-lista-confirmacao.html',
+  templateUrl: './dialog-lista-confirmacao.html',
 })
 export class DialogListaConfirmacaoComponent {
 

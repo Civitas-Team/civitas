@@ -1,0 +1,17 @@
+<div mat-dialog-content>
+  <mat-card *ngFor="let pessoa of data">
+    <div class="row mt-2">
+      <div class="col-3 mb-2">
+        <img
+          src="{{pessoa.idPessoa.imagem ? pessoa.idPessoa.imagem : '../../../assets/profile.png'}}"
+          class="img-fluid rounded-circle"
+          >
+      </div>
+      <div class="col-9 mt-3" >
+        <h3 style="font-size: 18px">
+          {{pessoa.idPessoa.nome}}
+        </h3>
+      </div>
+    </div>
+  </mat-card>
+</div>
